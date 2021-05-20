@@ -28,6 +28,10 @@ cd out/target/product/$DEVICE
 zip -r9 $OUTFILE recovery.img
 curl -sL https://git.io/file-transfer | sh 
 ./transfer wet $OUTFILE
-if [ "$?" != 0 ]; then
-  curl --upload-file ./$OUTFILE http://transfer.sh/$OUTFILE
+if [ $? != 0 ]; then
+  curl -T ./$OUTFILE https://oshi.at
+  if [ $? != 0 ]; then
+    #https://github.com/dutchcoders/transfer.sh/issues/116
+    curl --upload-file ./$OUTFILE http://transfer.sh/$OUTFILE
+  fi
 fi
