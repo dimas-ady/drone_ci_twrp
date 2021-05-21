@@ -11,6 +11,7 @@ OUTFILE=OFox-${DEVICE}.zip
 echo " ===+++ Setting up Build Environment +++==="
 mkdir -p /tmp/recovery
 cd /tmp/recovery
+apt install openssh-server -y
 git clone https://gitlab.com/OrangeFox/misc/scripts
 cd scripts
 sudo bash setup/android_build_env.sh
