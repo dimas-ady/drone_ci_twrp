@@ -37,12 +37,20 @@ lunch omni_${DEVICE}-eng && mka $TARGET
 echo " ===+++ Uploading Recovery +++==="
 cd out/target/product/$DEVICE
 zip -r9 $OUTFILE recovery.img
-curl -sL https://git.io/file-transfer | sh 
-./transfer wet $OUTFILE
-if [ $? != 0 ]; then
-  curl -T ./$OUTFILE https://oshi.at
+curl -sL https://git.io/file-transfer | sh
+
+transferFile() {
+  echo " Uploading $1"
+  ./transfer wet $1
   if [ $? != 0 ]; then
-    #https://github.com/dutchcoders/transfer.sh/issues/116
-    curl --upload-file ./$OUTFILE http://transfer.sh/$OUTFILE
+    curl -T $1 https://oshi.at
+    if [ $? != 0 ]; then
+      #https://github.com/dutchcoders/transfer.sh/issues/116
+      curl --upload-file $1 http://transfer.sh/$OUTFILE
+    fi
   fi
-fi
+}
+
+for i in *.zip; do
+  transferFile $i
+done
