@@ -64,14 +64,15 @@ lunch omni_${DEVICE}-eng && mka $TARGET
 # Upload zips & recovery.img (U can improvise lateron adding telegram support etc etc)
 echo " ===+++ Uploading Recovery +++==="
 cd out/target/product/$DEVICE
-zip -r9 $OUTFILE recovery.img
-curl -sL https://git.io/file-transfer | sh
 
 transferFile() {
   echo " Uploading $1"
-  ./transfer wet $1
+  curl -T $1 https://oshi.at
   if [ $? != 0 ]; then
-    curl -T $1 https://oshi.at
+    if ! [ -f transfer ]; then
+      curl -sL https://git.io/file-transfer | sh
+    fi
+    ./transfer wet $1
     if [ $? != 0 ]; then
       #https://github.com/dutchcoders/transfer.sh/issues/116
       curl --upload-file $1 http://transfer.sh/$OUTFILE
