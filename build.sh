@@ -41,7 +41,6 @@ export OF_DISABLE_MIUI_SPECIFIC_FEATURES=1
 export OF_SKIP_MULTIUSER_FOLDERS_BACKUP=1
 
 export OF_MAINTAINER="HemanthJabalpuri"
-export FOX_R11=1
 export FOX_VERSION="R11.1_0"
 export FOX_BUILD_TYPE="test"
 export FOX_USE_TWRP_RECOVERY_IMAGE_BUILDER=1
@@ -50,9 +49,12 @@ export FOX_RECOVERY_SYSTEM_PARTITION="/dev/block/mapper/system"
 export FOX_RECOVERY_VENDOR_PARTITION="/dev/block/mapper/vendor"
 export FOX_EXCLUDE_NANO_EDITOR=1
 export FOX_REMOVE_BASH=1
-export FOX_DELETE_AROMAFM=1	
-export FOX_DELETE_MAGISK_ADDON=1
+export FOX_DELETE_AROMAFM=1
+#export FOX_DELETE_MAGISK_ADDON=1
+export FOX_USE_SPECIFIC_MAGISK_ZIP="~/OrangeFox_10/Magisk.zip"
 export FOX_DELETE_INITD_ADDON=1
+
+wget -O ~/OrangeFox_10/Magisk.zip https://github.com/topjohnwu/Magisk/releases/download/v23.0/Magisk-v23.0.apk
 
 rm -rf out
 source build/envsetup.sh
