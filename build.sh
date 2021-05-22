@@ -26,8 +26,6 @@ cd ~/OrangeFox_10/fox_10.0
 git clone --depth=1 $DT_LINK $DT_PATH
 
 echo " ===+++ Building Recovery +++==="
-export TW_DEFAULT_LANGUAGE="en"
-export LC_ALL="C"
 export OF_KEEP_DM_VERITY=1
 export OF_QUICK_BACKUP_LIST="/boot;/data;"
 export OF_SCREEN_H=2400
@@ -51,7 +49,7 @@ export FOX_EXCLUDE_NANO_EDITOR=1
 export FOX_REMOVE_BASH=1
 export FOX_DELETE_AROMAFM=1
 #export FOX_DELETE_MAGISK_ADDON=1
-export FOX_USE_SPECIFIC_MAGISK_ZIP="~/OrangeFox_10/Magisk.zip"
+export FOX_USE_SPECIFIC_MAGISK_ZIP="$HOME/OrangeFox_10/Magisk.zip"
 export FOX_DELETE_INITD_ADDON=1
 
 wget -O ~/OrangeFox_10/Magisk.zip https://github.com/topjohnwu/Magisk/releases/download/v23.0/Magisk-v23.0.apk
