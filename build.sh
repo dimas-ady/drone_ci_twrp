@@ -21,11 +21,12 @@ echo " ===+++ Syncing Recovery Sources +++==="
 cd ~/OrangeFox_10
 git clone https://gitlab.com/OrangeFox/sync.git
 cd sync
-echo 'y' | ./get_fox_10.sh ~/OrangeFox_10/fox_10.0
+./get_fox_10.sh ~/OrangeFox_10/fox_10.0
 cd ~/OrangeFox_10/fox_10.0
 git clone --depth=1 $DT_LINK $DT_PATH
 
 echo " ===+++ Building Recovery +++==="
+export TW_DEFAULT_LANGUAGE="en"
 export OF_KEEP_DM_VERITY=1
 export OF_QUICK_BACKUP_LIST="/boot;/data;"
 export OF_SCREEN_H=2400
@@ -41,12 +42,8 @@ export OF_DISABLE_MIUI_SPECIFIC_FEATURES=1
 export OF_SKIP_MULTIUSER_FOLDERS_BACKUP=1
 
 export OF_MAINTAINER="HemanthJabalpuri"
-export FOX_R11=1
 export FOX_VERSION="R11.1_0"
 export FOX_BUILD_TYPE="test"
-export FOX_INSTALLER_DEBUG_MODE=1
-export FOX_RESET_SETTINGS="disabled"
-export FOX_USE_TWRP_RECOVERY_IMAGE_BUILDER=1
 export FOX_RECOVERY_INSTALL_PARTITION="/dev/block/by-name/recovery"
 export FOX_RECOVERY_SYSTEM_PARTITION="/dev/block/mapper/system"
 export FOX_RECOVERY_VENDOR_PARTITION="/dev/block/mapper/vendor"
