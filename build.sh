@@ -29,6 +29,8 @@ echo " ===+++ Building Recovery +++==="
 export OF_KEEP_DM_VERITY=1
 export OF_QUICK_BACKUP_LIST="/boot;/data;"
 export OF_SCREEN_H=2400
+export OF_HIDE_NOTCH=1
+export OF_FLASHLIGHT_ENABLE=0
 export OF_USE_MAGISKBOOT=1
 export OF_USE_MAGISKBOOT_FOR_ALL_PATCHES=1
 export OF_DONT_PATCH_ENCRYPTED_DEVICE=1
@@ -39,8 +41,11 @@ export OF_DISABLE_MIUI_SPECIFIC_FEATURES=1
 export OF_SKIP_MULTIUSER_FOLDERS_BACKUP=1
 
 export OF_MAINTAINER="HemanthJabalpuri"
+export FOX_R11=1
 export FOX_VERSION="R11.1_0"
 export FOX_BUILD_TYPE="test"
+export FOX_INSTALLER_DEBUG_MODE=1
+export FOX_RESET_SETTINGS="disabled"
 export FOX_USE_TWRP_RECOVERY_IMAGE_BUILDER=1
 export FOX_RECOVERY_INSTALL_PARTITION="/dev/block/by-name/recovery"
 export FOX_RECOVERY_SYSTEM_PARTITION="/dev/block/mapper/system"
