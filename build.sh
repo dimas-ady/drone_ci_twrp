@@ -20,10 +20,9 @@ git clone --depth=1 $DT_LINK $DT_PATH
 echo " ===+++ Building Recovery +++==="
 rm -rf out
 source build/envsetup.sh
-lunch omni_${DEVICE}-eng
 export ALLOW_MISSING_DEPENDENCIES=true
 export LC_ALL="C"
-mka recoveryimage
+lunch omni_${DEVICE}-eng && mka recoveryimage
 
 # Upload zips & recovery.img (U can improvise lateron adding telegram support etc etc)
 echo " ===+++ Uploading Recovery +++==="
