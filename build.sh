@@ -3,7 +3,7 @@
 
 MANIFEST="git://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-10.0"
 DEVICE=RMX2185
-DT_LINK="https://github.com/HemanthJabalpuri/android_recovery_realme_RMX2185 -b ofox"
+DT_LINK="https://github.com/HemanthJabalpuri/android_recovery_realme_RMX2185 -b ofox-test"
 DT_PATH=device/realme/$DEVICE
 
 echo " ===+++ Setting up Build Environment +++==="
@@ -36,21 +36,6 @@ lunch omni_${DEVICE}-eng && mka recoveryimage
 echo " ===+++ Uploading Recovery +++==="
 cd out/target/product/$DEVICE
 
-transferFile() {
-  echo " Uploading $1"
-  curl -T $1 https://oshi.at
-  if [ $? != 0 ]; then
-    if ! [ -f transfer ]; then
-      curl -sL https://git.io/file-transfer | sh
-    fi
-    ./transfer wet $1
-    if [ $? != 0 ]; then
-      #https://github.com/dutchcoders/transfer.sh/issues/116
-      curl --upload-file $1 http://transfer.sh/$OUTFILE
-    fi
-  fi
-}
-
-for i in *.zip; do
-  transferFile $i
-done
+ofoxzip="$(ls *.zip)"
+curl -F "file=@${ofoxzip}" https://file.io
+sleep 10
