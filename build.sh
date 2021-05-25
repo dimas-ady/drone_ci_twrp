@@ -28,4 +28,15 @@ lunch omni_${DEVICE}-eng && mka recoveryimage
 echo " ===+++ Uploading Recovery +++==="
 cd out/target/product/$DEVICE
 zip -r9 $OUTFILE recovery.img
-curl -F "file=@${OUTFILE}" https://file.io
+
+transferFile() {
+  echo " Uploading $1"
+  curl -F "file=@${1}" https://file.io
+  sleep 3
+  curl -T $1 https://oshi.at
+  sleep 3
+  curl --upload-file $1 http://transfer.sh/$1
+}
+
+transferFile $OUTFILE
+sleep 10
