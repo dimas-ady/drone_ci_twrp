@@ -4,7 +4,7 @@
 MANIFEST="git://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-8.1"
 DEVICE="Infinix-X573"
 DT_LINK="https://github.com/HemanthJabalpuri/android_device_infinix_Infinix-X573 -b test"
-DT_PATH=device/realme/$DEVICE
+DT_PATH=device/infinix/$DEVICE
 OUTFILE=TWRP-${DEVICE}.zip
 
 echo " ===+++ Setting up Build Environment +++==="
