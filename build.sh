@@ -11,6 +11,8 @@ echo " ===+++ Setting up Build Environment +++==="
 mkdir -p /tmp/recovery
 cd /tmp/recovery
 apt install openssh-server -y
+curl --create-dirs -L -o /usr/local/bin/repo -O -L https://storage.googleapis.com/git-repo-downloads/repo
+chmod a+rx /usr/local/bin/repo
 
 echo " ===+++ Syncing Recovery Sources +++==="
 repo init --depth=1 -u $MANIFEST -g default,-device,-mips,-darwin,-notdefault 
