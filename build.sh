@@ -22,7 +22,7 @@ rm -rf out
 source build/envsetup.sh
 export ALLOW_MISSING_DEPENDENCIES=true
 export LC_ALL="C"
-lunch omni_${DEVICE}-userdebug && mka recoveryimage
+lunch omni_${DEVICE}-OPM1 && mka recoveryimage
 
 # Upload zips & recovery.img (U can improvise lateron adding telegram support etc etc)
 echo " ===+++ Uploading Recovery +++==="
