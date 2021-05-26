@@ -13,6 +13,8 @@ echo " ===+++ Setting up Build Environment +++==="
 mkdir -p /tmp/recovery
 cd /tmp/recovery
 apt install openssh-server openjdk-8-jdk -y
+apt update --fix-missing
+apt install openssh-server openjdk-8-jdk -y
 
 echo " ===+++ Syncing Recovery Sources +++==="
 repo init --depth=1 -u $MANIFEST -g default,-device,-mips,-darwin,-notdefault 
