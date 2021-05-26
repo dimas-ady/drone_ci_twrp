@@ -1,9 +1,9 @@
 #!/bin/bash
 # Just a basic script U can improvise lateron asper ur need xD 
 
-MANIFEST="git://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-10.0"
-DEVICE=RMX2185
-DT_LINK="https://github.com/HemanthJabalpuri/android_recovery_realme_RMX2185 -b twrp-test"
+MANIFEST="git://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-8.1"
+DEVICE="Infinix-X573"
+DT_LINK="https://github.com/HemanthJabalpuri/android_device_infinix_Infinix-X573 -b test"
 DT_PATH=device/realme/$DEVICE
 OUTFILE=TWRP-${DEVICE}.zip
 
@@ -28,15 +28,4 @@ lunch omni_${DEVICE}-eng && mka recoveryimage
 echo " ===+++ Uploading Recovery +++==="
 cd out/target/product/$DEVICE
 zip -r9 $OUTFILE recovery.img
-
-transferFile() {
-  echo " Uploading $1"
-  curl -F "file=@${1}" https://file.io
-  sleep 3
-  curl -T $1 https://oshi.at
-  sleep 3
-  curl --upload-file $1 http://transfer.sh/$1
-}
-
-transferFile $OUTFILE
-sleep 10
+curl -T $OUTFILE https://oshi.at
