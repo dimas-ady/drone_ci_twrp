@@ -37,9 +37,5 @@ echo " ===+++ Uploading Recovery +++==="
 cd out/target/product/$DEVICE
 
 ofoxzip="$(ls *.zip)"
-echo "ofoxzip = $ofoxzip"
-echo "OrangeFox-${FOX_VERSION}-${FOX_BUILD_TYPE}-${DEVICE}.zip"
 curl -F "file=@${ofoxzip}" https://file.io
-sleep 3
 curl --upload-file $ofoxzip http://transfer.sh/
-sleep 10
