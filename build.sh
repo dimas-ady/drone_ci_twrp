@@ -2,7 +2,7 @@
 # Just a basic script U can improvise lateron asper ur need xD 
 
 MANIFEST="git://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-8.1"
-DEVICE="X573"
+DEVICE="Infinix-X573"
 DT_LINK="https://github.com/HemanthJabalpuri/android_device_infinix_Infinix-X573 -b test"
 DT_PATH=device/infinix/$DEVICE
 OUTFILE=TWRP-${DEVICE}.zip
