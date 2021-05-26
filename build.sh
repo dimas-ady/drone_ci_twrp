@@ -1,7 +1,7 @@
 #!/bin/bash
 # Just a basic script U can improvise lateron asper ur need xD 
 
-abort() { echo "$1"; exit 1 }
+abort() { echo "$1"; exit 1; }
 
 MANIFEST="git://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-10.0"
 DEVICE=RMX2185
