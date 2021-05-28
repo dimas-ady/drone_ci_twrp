@@ -5,9 +5,8 @@ abort() { echo "$1"; exit 1; }
 
 MANIFEST="git://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-10.0"
 DEVICE=RMX2185
-DT_LINK="https://github.com/HemanthJabalpuri/android_recovery_realme_RMX2185 -b android-10.0"
+DT_LINK="https://github.com/HemanthJabalpuri/android_recovery_realme_RMX2185 -b twrp-test"
 DT_PATH=device/realme/$DEVICE
-OUTFILE=TWRP-${DEVICE}.zip
 
 echo " ===+++ Setting up Build Environment +++==="
 mkdir -p /tmp/recovery
@@ -32,8 +31,12 @@ echo " mka recoveryimage done"
 
 # Upload zips & recovery.img (U can improvise lateron adding telegram support etc etc)
 echo " ===+++ Uploading Recovery +++==="
+version=$(cat bootable/recovery/variables.h | grep "define TW_MAIN_VERSION_STR" | cut -d \" -f2)
+OUTFILE=TWRP-${version}-${DEVICE}-$(date "+%Y%m%d-%I%M").zip
+
 cd out/target/product/$DEVICE
-zip -r9 $OUTFILE recovery.img
+mv recovery.img ${OUTFILE%.zip}.img
+zip -r9 $OUTFILE ${OUTFILE%.zip}.img
 
 curl -T $OUTFILE https://oshi.at
 #curl -F "file=@${OUTFILE}" https://file.io
