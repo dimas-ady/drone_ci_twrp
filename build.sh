@@ -27,6 +27,8 @@ echo " ===+++ Building Recovery +++==="
 wget -O ~/OrangeFox_10/Magisk.zip https://github.com/topjohnwu/Magisk/releases/download/v23.0/Magisk-v23.0.apk
 rm -rf out
 source build/envsetup.sh
+version=$(cat bootable/recovery/variables.h | grep "define FOX_MAIN_VERSION_STR" | cut -d \" -f2)
+export FOX_VERSION="$version"
 export ALLOW_MISSING_DEPENDENCIES=true 
 export FOX_USE_TWRP_RECOVERY_IMAGE_BUILDER=1 
 export LC_ALL="C"
@@ -35,6 +37,5 @@ lunch omni_${DEVICE}-eng && mka recoveryimage
 # Upload zips & recovery.img (U can improvise lateron adding telegram support etc etc)
 echo " ===+++ Uploading Recovery +++==="
 cd out/target/product/$DEVICE
-
 ofoxzip="$(ls *.zip)"
 curl -T ./$ofoxzip https://oshi.at
