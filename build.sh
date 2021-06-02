@@ -8,7 +8,7 @@ git clone --depth=1 https://github.com/HemanthJabalpuri/android_kernel_realme_mt
 
 echo "===+++ Downloading toolchain +++==="
 cd ~/work
-git clone --depth=1 https://github.com/kdrag0n/proton-clang toolchain
+git clone --depth=1 https://github.com/techyminati/android_prebuilts_clang_host_linux-x86_clang-5484270 -b 9.0.3 toolchain
 
 echo "===+++ Building kernel +++==="
 cd ~/work/kernel
