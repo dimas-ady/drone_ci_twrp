@@ -1,42 +1,26 @@
-#!/bin/bash
-# Just a basic script U can improvise lateron asper ur need xD 
+#!/bin/sh
 
-abort() { echo "$1"; exit 1; }
+mkdir ~/work
 
-MANIFEST="git://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-8.1"
-DEVICE=X573
-DT_LINK="https://github.com/HemanthJabalpuri/android_device_infinix_Infinix-X573 -b test3"
-DT_PATH=device/infinix/$DEVICE
+# Clone kernel sources
+mkdir ~/work/kernel && cd ~/work/kernel
+git clone --depth=1 https://github.com/HemanthJabalpuri/android_kernel_realme_mt6765 -b android-10.0
 
-echo " ===+++ Setting up Build Environment +++==="
-mkdir -p /tmp/recovery
-cd /tmp/recovery
-apt install openssh-server openjdk-8-jdk -y
-apt update --fix-missing
-apt install openssh-server openjdk-8-jdk -y
+# Download toolchain
+mkdir ~/work/toolchain && cd ~/work/toolchain
+wget https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/tags/android-10.0.0_r47/clang-r353983c.tar.gz -O clang-r353983c.tar.gz
+tar zxvf clang-r353983c.tar.gz
+rm -f clang-r353983c.tar.gz
 
-echo " ===+++ Syncing Recovery Sources +++==="
-repo init --depth=1 -u $MANIFEST -g default,-device,-mips,-darwin,-notdefault 
-repo sync -j$(nproc --all)
-git clone --depth=1 $DT_LINK $DT_PATH
-
-echo " ===+++ Building Recovery +++==="
-rm -rf out
-source build/envsetup.sh
-echo " source build/envsetup.sh done"
-export ALLOW_MISSING_DEPENDENCIES=true
-export LC_ALL="C"
-lunch omni_${DEVICE}-eng || abort " lunch failed with exit status $?"
-echo " lunch omni_${DEVICE}-eng done"
-mka recoveryimage || abort " mka failed with exit status $?"
-echo " mka recoveryimage done"
-
-# Upload zips & recovery.img (U can improvise lateron adding telegram support etc etc)
-echo " ===+++ Uploading Recovery +++==="
-version=$(cat bootable/recovery/variables.h | grep "define TW_MAIN_VERSION_STR" | cut -d \" -f2)
-OUTFILE=TWRP-${version}-${DEVICE}-$(date "+%Y%m%d-%I%M").zip
-
-cd out/target/product/$DEVICE
-mv recovery.img ${OUTFILE%.zip}.img
-zip -r9 $OUTFILE ${OUTFILE%.zip}.img
-curl -T $OUTFILE https://oshi.at
+# Build kernel
+cd ~/work/kernel
+mkdir out
+export ARCH=arm64
+make O=out ARCH=arm64 RMX2185_defconfig
+export PATH=$HOME/toolchain/bin:$PATH
+make O=out \
+     ARCH=arm64 \
+     CC=clang \
+     CROSS_COMPILE=aarch64-linux-gnu- \
+     CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
+     -j8 
