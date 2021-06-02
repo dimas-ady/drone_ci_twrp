@@ -7,18 +7,15 @@ cd ~/work
 git clone --depth=1 https://github.com/HemanthJabalpuri/android_kernel_realme_mt6765 -b android-10.0 kernel
 
 echo "===+++ Downloading toolchain +++==="
-cd ~/work
-git clone --depth=1 https://github.com/techyminati/android_prebuilts_clang_host_linux-x86_clang-5484270 -b 9.0.3 toolchain
+mkdir ~/work/toolchain && cd ~/work/toolchain
+wget https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/+archive/84fb09fafc92a3d9b4d160f049d46c3c784cc941.tar.gz -O gcc.tar.gz
+tar zxvf gcc.tar.gz
+rm -f gcc.tar.gz
 
 echo "===+++ Building kernel +++==="
 cd ~/work/kernel
 mkdir out
-make O=out ARCH=arm64 RMX2185_defconfig
-
-echo "===+++ Compiling... +++==="
-PATH=$HOME/work/toolchain/bin:$PATH \
-make -j$(nproc --all) O=out \
-                      ARCH=arm64 \
-                      CC=clang \
-                      CROSS_COMPILE=aarch64-linux-gnu- \
-                      CROSS_COMPILE_ARM32=arm-linux-gnueabi-
+export ARCH=arm64
+export CROSS_COMPILE=$HOME/toolchain/bin/aarch64-linux-android-
+make O=out RMX2185_defconfig
+make O=out -j$(nproc --all)
