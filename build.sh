@@ -3,8 +3,8 @@
 mkdir ~/work
 
 echo "Cloning kernel sources"
-mkdir ~/work/kernel && cd ~/work/kernel
-git clone --depth=1 https://github.com/HemanthJabalpuri/android_kernel_realme_mt6765 -b android-10.0
+cd ~/work
+git clone --depth=1 https://github.com/HemanthJabalpuri/android_kernel_realme_mt6765 -b android-10.0 kernel
 
 echo "Downloading toolchain"
 mkdir ~/work/toolchain && cd ~/work/toolchain
@@ -15,13 +15,12 @@ rm -f clang-r353983c.tar.gz
 echo "Building kernel"
 cd ~/work/kernel
 mkdir out
-export PATH=$HOME/work/toolchain/bin:$PATH
 make O=out ARCH=arm64 RMX2185_defconfig
 
 echo "Compiling..."
-make O=out \
-     ARCH=arm64 \
-     CC=clang \
-     CROSS_COMPILE=aarch64-linux-gnu- \
-     CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
-     -j8 
+PATH=$HOME/work/toolchain/bin:$PATH \
+make -j$(nproc --all) O=out \
+                      ARCH=arm64 \
+                      CC=clang \
+                      CROSS_COMPILE=aarch64-linux-gnu- \
+                      CROSS_COMPILE_ARM32=arm-linux-gnueabi-
