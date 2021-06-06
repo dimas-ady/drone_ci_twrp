@@ -1,5 +1,6 @@
 #!/bin/sh
 
+apt install openssh -y
 git clone https://github.com/akhilnarang/scripts.git
 cd scripts
 bash setup/android_build_env.sh
