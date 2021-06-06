@@ -1,5 +1,8 @@
 #!/bin/sh
 
+export USE_CCACHE=1
+ccache -M 50G
+
 apt install openssh-server -y
 git clone https://github.com/akhilnarang/scripts.git
 cd scripts
