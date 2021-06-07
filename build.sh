@@ -4,7 +4,7 @@ mkdir ~/work
 
 echo "===+++ Cloning kernel sources +++==="
 cd ~/work
-git clone --depth=1 https://github.com/HemanthJabalpuri/android_kernel_realme_mt6765 -b android-10.0 kernel
+git clone --depth=1 https://github.com/MiCode/Xiaomi_Kernel_OpenSource -b lancelot-q-oss kernel
 
 echo "===+++ Downloading toolchain +++==="
 mkdir toolchain && cd toolchain
@@ -15,7 +15,7 @@ git clone --depth=1 https://github.com/LineageOS/android_prebuilts_gcc_linux-x86
 echo "===+++ Building kernel +++==="
 cd ~/work/kernel
 mkdir out
-make O=out ARCH=arm64 RMX2185_defconfig
+make O=out ARCH=arm64 merlinin_defconfig
 
 PATH="$HOME/work/toolchain/clang-9.0.3/bin:$HOME/work/toolchain/los-4.9-64/bin:$HOME/work/toolchain/los-4.9-32/bin:${PATH}" \
 make O=out \
