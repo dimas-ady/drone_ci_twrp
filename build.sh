@@ -5,7 +5,7 @@ abort() { echo "$1"; exit 1; }
 
 MANIFEST="git://github.com/LineageOS/android.git -b lineage-18.1"
 DEVICE=RMX2185
-DT_LINK="https://github.com/HemanthJabalpuri/android_device_realme_RMX2185 -b android-10.0"
+DT_LINK="https://github.com/HemanthJabalpuri/android_device_realme_RMX2185 -b lineage-18.1"
 DT_PATH=device/realme/$DEVICE
 
 echo " ===+++ Setting up Build Environment +++==="
@@ -15,7 +15,7 @@ apt install openssh-server -y
 
 echo " ===+++ Syncing Recovery Sources +++==="
 repo init -u $MANIFEST
-repo sync
+repo sync --force-sync --current-branch --no-tags --no-clone-bundle --optimized-fetch --prune -j$(nproc --all)
 git clone --depth=1 $DT_LINK $DT_PATH
 
 echo " ===+++ Building Recovery +++==="
