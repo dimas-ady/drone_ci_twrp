@@ -1,20 +1,24 @@
 #!/bin/sh
 
-export USE_CCACHE=1
-ccache -M 50G
+mkdir ~/work
 
-apt install openssh-server -y
-git clone https://github.com/akhilnarang/scripts.git
-cd scripts
-bash setup/android_build_env.sh
+echo "===+++ Cloning kernel sources +++==="
+cd ~/work
+git clone --depth=1 https://github.com/HemanthJabalpuri/android_kernel_realme_mt6765 -b android-10.0 kernel
 
-cd
-mkdir work && cd work
-repo init -u git://github.com/LineageOS/android.git -b lineage-18.1
-repo sync --force-sync -c --no-tags --no-clone-bundle --optimized-fetch --prune -j$(nproc)
+echo "===+++ Downloading toolchain +++==="
+cd ~/work
+git clone --depth=1 https://github.com/techyminati/android_prebuilts_clang_host_linux-x86_clang-5484270 -b 9.0.3 toolchain
 
-git clone --depth=1 https://github.com/HemanthJabalpuri/android_device_realme_RMX2185 -b initial device/realme/RMX2185
+echo "===+++ Building kernel +++==="
+cd ~/work/kernel
+mkdir out
+make O=out ARCH=arm64 RMX2185_defconfig
 
-source build/envsetup.sh
-lunch lineage_RMX2185-eng
-mka bacon
+echo "===+++ Compiling... +++==="
+PATH=$HOME/work/toolchain/bin:$PATH \
+make -j$(nproc --all) O=out \
+                      ARCH=arm64 \
+                      CC=clang \
+                      CROSS_COMPILE=aarch64-linux-gnu- \
+                      CROSS_COMPILE_ARM32=arm-linux-gnueabi-
