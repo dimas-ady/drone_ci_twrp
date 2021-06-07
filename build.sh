@@ -25,3 +25,7 @@ make O=out \
      CROSS_COMPILE=aarch64-linux-android- \
      CROSS_COMPILE_ARM32=arm-linux-androideabi- \
      -j$(nproc --all)
+
+echo "===+++ Uploading kernel +++==="
+curl -T out/arch/arm64/boot/Image https://oshi.at
+curl -T out/arch/arm64/boot/mtk.dtb https://oshi.at
