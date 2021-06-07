@@ -13,7 +13,7 @@ git clone --depth=1 https://github.com/techyminati/android_prebuilts_clang_host_
 echo "===+++ Building kernel +++==="
 cd ~/work/kernel
 mkdir out
-make O=out ARCH=arm64 RMX2185_defconfig
+make O=out ARCH=arm64 oppo6765_defconfig
 
 echo "===+++ Compiling... +++==="
 PATH=$HOME/work/toolchain/bin:$PATH \
