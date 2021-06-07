@@ -16,7 +16,7 @@ echo "===+++ Building kernel +++==="
 cd ~/work/kernel
 mkdir out
 export LC_ALL=C
-make O=out ARCH=arm64 oppo6765_defconfig
+make O=out ARCH=arm64 RMX2185_defconfig
 
 echo "===+++ Compiling... +++==="
 PATH="$HOME/work/toolchain/clang/clang-r353983c/bin:${PATH}:$HOME/work/toolchain/los-4.9-32/bin:${PATH}:$HOME/work/toolchain/los-4.9-64/bin:${PATH}" \
