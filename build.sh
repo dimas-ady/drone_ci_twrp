@@ -7,7 +7,7 @@ cd ~/work
 git clone --depth=1 https://github.com/HemanthJabalpuri/android_kernel_realme_mt6765 -b android-10.0 kernel
 
 echo "===+++ Downloading toolchain +++==="
-mkdir toolchain
+mkdir toolchain && cd toolchain
 git clone https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86 clang
 git clone --depth=1 https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9 los-4.9-64
 git clone --depth=1 https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_arm_arm-linux-androideabi-4.9 los-4.9-32
