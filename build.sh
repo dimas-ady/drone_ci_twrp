@@ -3,9 +3,9 @@
 
 abort() { echo "$1"; exit 1; }
 
-MANIFEST="git://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-10.0"
+MANIFEST="git://github.com/LineageOS/android.git -b lineage-18.1"
 DEVICE=RMX2185
-DT_LINK="https://github.com/HemanthJabalpuri/android_recovery_realme_RMX2185 -b rmui2"
+DT_LINK="https://github.com/HemanthJabalpuri/android_device_realme_RMX2185 -b android-10.0"
 DT_PATH=device/realme/$DEVICE
 
 echo " ===+++ Setting up Build Environment +++==="
@@ -14,8 +14,8 @@ cd /tmp/recovery
 apt install openssh-server -y
 
 echo " ===+++ Syncing Recovery Sources +++==="
-repo init --depth=1 -u $MANIFEST -g default,-device,-mips,-darwin,-notdefault 
-repo sync -j$(nproc --all)
+repo init -u $MANIFEST
+repo sync
 git clone --depth=1 $DT_LINK $DT_PATH
 
 echo " ===+++ Building Recovery +++==="
@@ -24,15 +24,14 @@ source build/envsetup.sh
 echo " source build/envsetup.sh done"
 export ALLOW_MISSING_DEPENDENCIES=true
 export LC_ALL="C"
-lunch omni_${DEVICE}-eng || abort " lunch failed with exit status $?"
-echo " lunch omni_${DEVICE}-eng done"
+lunch lineage_${DEVICE}-eng || abort " lunch failed with exit status $?"
+echo " lunch lineage_${DEVICE}-eng done"
 mka recoveryimage || abort " mka failed with exit status $?"
 echo " mka recoveryimage done"
 
 # Upload zips & recovery.img (U can improvise lateron adding telegram support etc etc)
 echo " ===+++ Uploading Recovery +++==="
-version=$(cat bootable/recovery/variables.h | grep "define TW_MAIN_VERSION_STR" | cut -d \" -f2)
-OUTFILE=TWRP-${version}-${DEVICE}-$(date "+%Y%m%d-%I%M").zip
+OUTFILE=LineageRecovery-${DEVICE}-$(date "+%Y%m%d-%I%M").zip
 
 cd out/target/product/$DEVICE
 mv recovery.img ${OUTFILE%.zip}.img
