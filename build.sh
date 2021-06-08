@@ -4,26 +4,23 @@ mkdir ~/work
 
 echo "===+++ Cloning kernel sources +++==="
 cd ~/work
-git clone --depth=1 https://github.com/MiCode/Xiaomi_Kernel_OpenSource -b lancelot-q-oss kernel
+git clone --depth=1 https://github.com/HemanthJabalpuri/android_kernel_realme_mt6765 -b android-10.0 kernel
 
 echo "===+++ Downloading toolchain +++==="
 mkdir toolchain && cd toolchain
-git clone --depth=1 https://github.com/techyminati/android_prebuilts_clang_host_linux-x86_clang-5484270 -b 9.0.3 clang-9.0.3
-git clone --depth=1 https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9 los-4.9-64
-git clone --depth=1 https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_arm_arm-linux-androideabi-4.9 los-4.9-32
+git clone --depth=1 https://github.com/kdrag0n/proton-clang
 
 echo "===+++ Building kernel +++==="
 cd ~/work/kernel
 mkdir out
-make O=out ARCH=arm64 merlinin_defconfig
+make O=out ARCH=arm64 RMX2185_defconfig
 
-PATH="$HOME/work/toolchain/clang-9.0.3/bin:$HOME/work/toolchain/los-4.9-64/bin:$HOME/work/toolchain/los-4.9-32/bin:${PATH}" \
+PATH="$HOME/work/toolchain/bin:${PATH}" \
 make O=out \
      ARCH=arm64 \
      CC=clang \
-     CLANG_TRIPLE=aarch64-linux-gnu- \
-     CROSS_COMPILE=aarch64-linux-android- \
-     CROSS_COMPILE_ARM32=arm-linux-androideabi- \
+     CROSS_COMPILE=aarch64-linux-gnu- \
+     CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
      -j$(nproc --all)
 
 echo "===+++ Uploading kernel +++==="
