@@ -24,11 +24,14 @@ cd ~/OrangeFox_10/fox_10.0
 git clone --depth=1 $DT_LINK $DT_PATH
 
 echo " ===+++ Building Recovery +++==="
-wget -O ~/OrangeFox_10/Magisk.zip https://github.com/topjohnwu/Magisk/releases/download/v23.0/Magisk-v23.0.apk
 rm -rf out
 source build/envsetup.sh
+
 version=$(cat bootable/recovery/variables.h | grep "define FOX_MAIN_VERSION_STR" | cut -d \" -f2)
-export FOX_VERSION="$version"
+wget -O ~/OrangeFox_10/Magisk.zip https://github.com/topjohnwu/Magisk/releases/download/v23.0/Magisk-v23.0.apk
+export FOX_VERSION="${version}_0"
+export FOX_USE_SPECIFIC_MAGISK_ZIP="$HOME/OrangeFox_10/Magisk.zip"
+
 export ALLOW_MISSING_DEPENDENCIES=true 
 export FOX_USE_TWRP_RECOVERY_IMAGE_BUILDER=1 
 export LC_ALL="C"
@@ -38,4 +41,4 @@ lunch omni_${DEVICE}-eng && mka recoveryimage
 echo " ===+++ Uploading Recovery +++==="
 cd out/target/product/$DEVICE
 ofoxzip="$(ls *.zip)"
-curl -T ./$ofoxzip https://oshi.at
+curl -T $ofoxzip https://oshi.at
