@@ -5,7 +5,7 @@ abort() { echo "$1"; exit 1; }
 
 MANIFEST="git://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-10.0"
 DEVICE=RMX2185
-DT_LINK="https://github.com/HemanthJabalpuri/android_recovery_realme_RMX2185 -b nocrypt"
+DT_LINK="https://github.com/HemanthJabalpuri/android_recovery_realme_RMX2185 -b main"
 DT_PATH=device/realme/$DEVICE
 
 echo " ===+++ Setting up Build Environment +++==="
@@ -17,6 +17,11 @@ echo " ===+++ Syncing Recovery Sources +++==="
 repo init --depth=1 -u $MANIFEST -g default,-device,-mips,-darwin,-notdefault 
 repo sync -j$(nproc --all)
 git clone --depth=1 $DT_LINK $DT_PATH
+
+echo " ===+++ Patching Recovery Sources +++==="
+cd bootable/recovery
+curl -sL https://github.com/SHRP/bootable_recovery/commit/8b3b4e994cd1cdbf338fe2ad519c7e24d04531f3.patch | patch -p1 -b
+cd -
 
 echo " ===+++ Building Recovery +++==="
 rm -rf out
