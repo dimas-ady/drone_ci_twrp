@@ -20,7 +20,7 @@ git clone --depth=1 $DT_LINK $DT_PATH
 
 echo " ===+++ Patching Recovery Sources +++==="
 cd bootable/recovery
-curl -sL https://github.com/SHRP/bootable_recovery/commit/8b3b4e994cd1cdbf338fe2ad519c7e24d04531f3.patch | patch -p1 -b
+curl -sL https://github.com/HemanthJabalpuri/android_bootable_recovery/commit/a8c45a570874bacea0a0ad1e2f7827bfd9c9015b.patch | patch -p1 -b
 cd -
 
 echo " ===+++ Building Recovery +++==="
