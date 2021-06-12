@@ -5,7 +5,7 @@ abort() { echo "$1"; exit 1; }
 
 MANIFEST="git://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-8.1"
 DEVICE=X573
-DT_LINK="https://github.com/HemanthJabalpuri/android_device_infinix_Infinix-X573 -b test3"
+DT_LINK="https://github.com/HemanthJabalpuri/android_device_infinix_X573 -b android-8.0"
 DT_PATH=device/infinix/$DEVICE
 
 echo " ===+++ Setting up Build Environment +++==="
@@ -31,15 +31,17 @@ echo " lunch omni_${DEVICE}-eng done"
 mka recoveryimage || abort " mka failed with exit status $?"
 echo " mka recoveryimage done"
 
-# Upload zips & recovery.img (U can improvise lateron adding telegram support etc etc)
-echo " ===+++ Uploading Recovery +++==="
+echo " ===+++ Signing Recovery +++==="
 version=$(cat bootable/recovery/variables.h | grep "define TW_MAIN_VERSION_STR" | cut -d \" -f2)
-OUTFILE=TWRP-${version}-${DEVICE}-$(date "+%Y%m%d-%I%M").zip
+OUTFILE=TWRP-${version}-${DEVICE}-$(date "+%Y%m%d-%I%M")-signed
 
 cd out/target/product/$DEVICE
-mv recovery.img ${OUTFILE%.zip}.img
-zip -r9 $OUTFILE ${OUTFILE%.zip}.img
+git clone https://github.com/HemanthJabalpuri/boot_signer
+java -jar boot_signer/boot_signer.jar /recovery recovery.img boot_signer/verity.pk8 boot_signer/verity.x509.pem ${OUTFILE}.img
 
-curl -T $OUTFILE https://oshi.at
-#curl -F "file=@${OUTFILE}" https://file.io
-#curl --upload-file $OUTFILE http://transfer.sh/
+# Upload zips & recovery.img (U can improvise lateron adding telegram support etc etc)
+echo " ===+++ Uploading Recovery +++==="
+zip -r9 ${OUTFILE}.zip ${OUTFILE}.img
+curl -T ${OUTFILE}.zip https://oshi.at
+#curl -F "file=@${OUTFILE}.zip" https://file.io
+#curl --upload-file ${OUTFILE}.zip http://transfer.sh/
