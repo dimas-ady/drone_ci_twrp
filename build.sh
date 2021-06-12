@@ -31,16 +31,13 @@ echo " lunch omni_${DEVICE}-eng done"
 mka recoveryimage || abort " mka failed with exit status $?"
 echo " mka recoveryimage done"
 
-echo " ===+++ Signing Recovery +++==="
+# Upload zips & recovery.img (U can improvise lateron adding telegram support etc etc)
+echo " ===+++ Uploading Recovery +++==="
 version=$(cat bootable/recovery/variables.h | grep "define TW_MAIN_VERSION_STR" | cut -d \" -f2)
 OUTFILE=TWRP-${version}-${DEVICE}-$(date "+%Y%m%d-%I%M")-signed
 
 cd out/target/product/$DEVICE
-git clone https://github.com/HemanthJabalpuri/boot_signer
-java -jar boot_signer/boot_signer.jar /recovery recovery.img boot_signer/verity.pk8 boot_signer/verity.x509.pem ${OUTFILE}.img
-
-# Upload zips & recovery.img (U can improvise lateron adding telegram support etc etc)
-echo " ===+++ Uploading Recovery +++==="
+mv recovery.img ${OUTFILE}.img
 zip -r9 ${OUTFILE}.zip ${OUTFILE}.img
 curl -T ${OUTFILE}.zip https://oshi.at
 #curl -F "file=@${OUTFILE}.zip" https://file.io
