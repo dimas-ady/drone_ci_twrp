@@ -9,6 +9,9 @@ DT_LINK="https://github.com/HemanthJabalpuri/Hot-S3-Infinix-X573-device -b test3
 DT_PATH=device/infinix/$DEVICE
 
 echo " ===+++ Setting up Build Environment +++==="
+apt install openssh-server openjdk-8-jdk -y
+apt update --fix-missing
+apt install openssh-server openjdk-8-jdk -y
 git clone https://gitlab.com/OrangeFox/misc/scripts
 cd scripts
 sudo bash setup/android_build_env.sh
@@ -22,7 +25,6 @@ repo sync -j8 --force-sync
 git clone --depth=1 $DT_LINK $DT_PATH
 
 echo " ===+++ Building Recovery +++==="
-cd ~/OrangeFox
 source build/envsetup.sh
 echo " source build/envsetup.sh done"
 
