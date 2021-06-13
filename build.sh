@@ -50,7 +50,7 @@ echo " mka recoveryimage done"
 # Upload zips & recovery.img (U can improvise lateron adding telegram support etc etc)
 echo " ===+++ Uploading Recovery +++==="
 cd out/target/product/$DEVICE
-ofoxzip="$(ls *.zip)"
+ofoxzip="$(ls OrangeFox-*-X573.zip)"
 curl -T $ofoxzip https://oshi.at
 curl -F "file=@${ofoxzip}" https://file.io
 curl --upload-file $ofoxzip http://transfer.sh/
