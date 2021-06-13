@@ -3,28 +3,42 @@
 
 abort() { echo "$1"; exit 1; }
 
-MANIFEST="git://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-9.0"
+MANIFEST="https://gitlab.com/OrangeFox/Manifest.git -b fox_9.0"
 DEVICE=X573
 DT_LINK="https://github.com/HemanthJabalpuri/Hot-S3-Infinix-X573-device -b test3"
 DT_PATH=device/infinix/$DEVICE
 
 echo " ===+++ Setting up Build Environment +++==="
-mkdir -p /tmp/recovery
-cd /tmp/recovery
-apt install openssh-server openjdk-8-jdk -y
-apt update --fix-missing
-apt install openssh-server openjdk-8-jdk -y
+git clone https://gitlab.com/OrangeFox/misc/scripts
+cd scripts
+sudo bash setup/android_build_env.sh
+sudo bash setup/install_android_sdk.sh
 
 echo " ===+++ Syncing Recovery Sources +++==="
-repo init --depth=1 -u $MANIFEST -g default,-device,-mips,-darwin,-notdefault 
-repo sync -j$(nproc --all)
+mkdir ~/OrangeFox
+cd ~/OrangeFox
+repo init --depth=1 -u $MANIFEST
+repo sync -j8 --force-sync
 git clone --depth=1 $DT_LINK $DT_PATH
 
 echo " ===+++ Building Recovery +++==="
 rm -rf out
 source build/envsetup.sh
 echo " source build/envsetup.sh done"
+
+# Flags
+version=$(cat bootable/recovery/variables.h | grep "define FOX_MAIN_VERSION_STR" | cut -d \" -f2)
+export OF_DISABLE_MIUI_SPECIFIC_FEATURES=1
+export OF_MAINTAINER="HemanthJabalpuri"
+export FOX_VERSION="${version}_0"
+export FOX_BUILD_TYPE="test"
+export FOX_REMOVE_AAPT=1
+export FOX_DELETE_INITD_ADDON=1
+export FOX_DELETE_AROMAFM=1
+export FOX_DELETE_MAGISK_ADDON=1
+
 export ALLOW_MISSING_DEPENDENCIES=true
+export FOX_USE_TWRP_RECOVERY_IMAGE_BUILDER=1
 export LC_ALL="C"
 lunch omni_${DEVICE}-eng || abort " lunch failed with exit status $?"
 echo " lunch omni_${DEVICE}-eng done"
@@ -33,12 +47,8 @@ echo " mka recoveryimage done"
 
 # Upload zips & recovery.img (U can improvise lateron adding telegram support etc etc)
 echo " ===+++ Uploading Recovery +++==="
-version=$(cat bootable/recovery/variables.h | grep "define TW_MAIN_VERSION_STR" | cut -d \" -f2)
-OUTFILE=TWRP-${version}-${DEVICE}-$(date "+%Y%m%d-%I%M")-signed
-
 cd out/target/product/$DEVICE
-mv recovery.img ${OUTFILE}.img
-zip -r9 ${OUTFILE}.zip ${OUTFILE}.img
-curl -T ${OUTFILE}.zip https://oshi.at
-#curl -F "file=@${OUTFILE}.zip" https://file.io
-#curl --upload-file ${OUTFILE}.zip http://transfer.sh/
+ofoxzip="$(ls *.zip)"
+curl -T $ofoxzip https://oshi.at
+#curl -F "file=@${ofoxzip}" https://file.io
+#curl --upload-file $ofoxzip http://transfer.sh/
