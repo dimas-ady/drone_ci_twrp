@@ -3,7 +3,7 @@
 
 abort() { echo "$1"; exit 1; }
 
-MANIFEST="git://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-9.0"
+MANIFEST="git://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-8.1"
 DEVICE=X573
 DT_LINK="https://github.com/HemanthJabalpuri/android_device_infinix_X573 -b android-8.0"
 DT_PATH=device/infinix/$DEVICE
