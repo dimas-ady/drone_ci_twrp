@@ -22,7 +22,7 @@ repo sync -j8 --force-sync
 git clone --depth=1 $DT_LINK $DT_PATH
 
 echo " ===+++ Building Recovery +++==="
-rm -rf out
+cd ~/OrangeFox
 source build/envsetup.sh
 echo " source build/envsetup.sh done"
 
