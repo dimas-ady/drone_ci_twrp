@@ -32,6 +32,7 @@ echo " source build/envsetup.sh done"
 version=$(cat bootable/recovery/variables.h | grep "define FOX_MAIN_VERSION_STR" | cut -d \" -f2)
 export OF_SCREEN_H=2160
 export OF_ALLOW_DISABLE_NAVBAR=0
+export OF_NO_SPLASH_CHANGE=1
 export OF_DISABLE_MIUI_SPECIFIC_FEATURES=1
 export OF_KEEP_DM_VERITY_FORCED_ENCRYPTION=1
 
