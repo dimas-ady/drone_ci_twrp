@@ -5,7 +5,7 @@ abort() { echo "$1"; exit 1; }
 
 MANIFEST="https://gitlab.com/OrangeFox/Manifest.git -b fox_9.0"
 DEVICE=X573
-DT_LINK="https://github.com/HemanthJabalpuri/Hot-S3-Infinix-X573-device -b test3"
+DT_LINK="https://github.com/HemanthJabalpuri/Hot-S3-Infinix-X573-device -b test5"
 DT_PATH=device/infinix/$DEVICE
 
 echo " ===+++ Setting up Build Environment +++==="
@@ -30,7 +30,11 @@ echo " source build/envsetup.sh done"
 
 # Flags
 version=$(cat bootable/recovery/variables.h | grep "define FOX_MAIN_VERSION_STR" | cut -d \" -f2)
+export OF_SCREEN_H=2160
+export OF_ALLOW_DISABLE_NAVBAR=0
 export OF_DISABLE_MIUI_SPECIFIC_FEATURES=1
+export OF_KEEP_DM_VERITY_FORCED_ENCRYPTION=1
+
 export OF_MAINTAINER="HemanthJabalpuri"
 export FOX_VERSION="${version}_0"
 export FOX_BUILD_TYPE="test"
@@ -52,5 +56,5 @@ echo " ===+++ Uploading Recovery +++==="
 cd out/target/product/$DEVICE
 ofoxzip="$(ls OrangeFox-*-X573.zip)"
 curl -T $ofoxzip https://oshi.at
-curl -F "file=@${ofoxzip}" https://file.io
-curl --upload-file $ofoxzip http://transfer.sh/
+#curl -F "file=@${ofoxzip}" https://file.io
+#curl --upload-file $ofoxzip http://transfer.sh/
