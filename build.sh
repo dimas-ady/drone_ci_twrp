@@ -3,9 +3,9 @@
 
 abort() { echo "$1"; exit 1; }
 
-MANIFEST="git://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-10.0"
+MANIFEST="git://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp.git -b twrp-11"
 DEVICE=RMX2185
-DT_LINK="https://github.com/HemanthJabalpuri/android_recovery_realme_RMX2185 -b rui2"
+DT_LINK="https://github.com/HemanthJabalpuri/android_recovery_realme_RMX2185 -b test"
 DT_PATH=device/realme/$DEVICE
 
 echo " ===+++ Setting up Build Environment +++==="
@@ -18,10 +18,10 @@ repo init --depth=1 -u $MANIFEST -g default,-device,-mips,-darwin,-notdefault
 repo sync -j$(nproc --all)
 git clone --depth=1 $DT_LINK $DT_PATH
 
-echo " ===+++ Patching Recovery Sources +++==="
-cd bootable/recovery
-curl -sL https://github.com/HemanthJabalpuri/android_recovery_realme_RMX2185/files/6628221/SkipTrebleCompatibility.patch.txt | patch -p1 -b
-cd -
+#echo " ===+++ Patching Recovery Sources +++==="
+#cd bootable/recovery
+#curl -sL https://github.com/HemanthJabalpuri/android_recovery_realme_RMX2185/files/6628221/SkipTrebleCompatibility.patch.txt | patch -p1 -b
+#cd -
 
 echo " ===+++ Building Recovery +++==="
 rm -rf out
