@@ -29,8 +29,8 @@ source build/envsetup.sh
 echo " source build/envsetup.sh done"
 export ALLOW_MISSING_DEPENDENCIES=true
 export LC_ALL="C"
-lunch omni_${DEVICE}-eng || abort " lunch failed with exit status $?"
-echo " lunch omni_${DEVICE}-eng done"
+lunch twrp_${DEVICE}-eng || abort " lunch failed with exit status $?"
+echo " lunch twrp_${DEVICE}-eng done"
 mka recoveryimage || abort " mka failed with exit status $?"
 echo " mka recoveryimage done"
 
