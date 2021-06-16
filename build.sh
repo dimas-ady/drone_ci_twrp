@@ -4,8 +4,8 @@
 abort() { echo "$1"; exit 1; }
 
 MANIFEST="https://gitlab.com/OrangeFox/Manifest.git -b fox_9.0"
-DEVICE=X573
-DT_LINK="https://github.com/HemanthJabalpuri/Hot-S3-Infinix-X573-device -b test5"
+DEVICE=Infinix_X573
+DT_LINK="https://github.com/skyhuppa/Infinix_X573 -b android-9"
 DT_PATH=device/infinix/$DEVICE
 
 echo " ===+++ Setting up Build Environment +++==="
@@ -55,7 +55,7 @@ echo " mka recoveryimage done"
 # Upload zips & recovery.img (U can improvise lateron adding telegram support etc etc)
 echo " ===+++ Uploading Recovery +++==="
 cd out/target/product/$DEVICE
-ofoxzip="$(ls OrangeFox-*-X573.zip)"
+ofoxzip="$(ls OrangeFox-*-${DEVICE}.zip)"
 curl -T $ofoxzip https://oshi.at
 #curl -F "file=@${ofoxzip}" https://file.io
 #curl --upload-file $ofoxzip http://transfer.sh/
