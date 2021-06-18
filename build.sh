@@ -12,6 +12,8 @@ echo " ===+++ Setting up Build Environment +++==="
 mkdir -p /tmp/recovery
 cd /tmp/recovery
 apt install openssh-server -y
+apt update --fix-missing
+apt install openssh-server -y
 
 echo " ===+++ Syncing Recovery Sources +++==="
 repo init --depth=1 -u $MANIFEST -g default,-device,-mips,-darwin,-notdefault 
