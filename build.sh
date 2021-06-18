@@ -5,7 +5,7 @@ abort() { echo "$1"; exit 1; }
 
 MANIFEST="git://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-10.0"
 DEVICE=RMX2185
-DT_LINK="https://github.com/HemanthJabalpuri/android_recovery_realme_RMX2185 -b nocrypt"
+DT_LINK="https://github.com/HemanthJabalpuri/android_recovery_realme_RMX2185 -b android-10.0"
 DT_PATH=device/realme/$DEVICE
 
 echo " ===+++ Setting up Build Environment +++==="
@@ -21,9 +21,9 @@ repo sync -j$(nproc --all)
 git clone --depth=1 $DT_LINK $DT_PATH
 
 echo " ===+++ Patching Recovery Sources +++==="
-cd bootable/recovery
-curl -sL https://github.com/HemanthJabalpuri/android_recovery_realme_RMX2185/files/6628221/SkipTrebleCompatibility.patch.txt | patch -p1 -b
-cd -
+#cd bootable/recovery
+curl -sL https://oshi.at/KdwYpu | patch -p1 -b
+#cd -
 
 echo " ===+++ Building Recovery +++==="
 rm -rf out
@@ -39,8 +39,7 @@ echo " mka recoveryimage done"
 # Upload zips & recovery.img (U can improvise lateron adding telegram support etc etc)
 echo " ===+++ Uploading Recovery +++==="
 version=$(cat bootable/recovery/variables.h | grep "define TW_MAIN_VERSION_STR" | cut -d \" -f2)
-#OUTFILE=TWRP-${version}-${DEVICE}-$(date "+%Y%m%d-%I%M").zip
-OUTFILE=TWRP-${version}-${DEVICE}-$(date "+%Y%m%d")-nocrypt.zip
+OUTFILE=TWRP-${version}-${DEVICE}-$(date "+%Y%m%d-%I%M").zip
 
 cd out/target/product/$DEVICE
 mv recovery.img ${OUTFILE%.zip}.img
