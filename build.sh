@@ -5,7 +5,7 @@ abort() { echo "$1"; exit 1; }
 
 MANIFEST="git://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-10.0"
 DEVICE=RMX2185
-DT_LINK="https://github.com/HemanthJabalpuri/android_recovery_realme_RMX2185 -b android-10.0"
+DT_LINK="https://github.com/HemanthJabalpuri/android_recovery_realme_RMX2185 -b twrp-test"
 DT_PATH=device/realme/$DEVICE
 
 echo " ===+++ Setting up Build Environment +++==="
@@ -23,6 +23,7 @@ git clone --depth=1 $DT_LINK $DT_PATH
 echo " ===+++ Patching Recovery Sources +++==="
 cd bootable/recovery
 curl -sL https://github.com/HemanthJabalpuri/android_recovery_realme_RMX2185/files/6679948/0001-Provide-an-option-to-skip-compatibility.zip-check.patch.txt | patch -p1 -b
+curl -sL https://github.com/HemanthJabalpuri/android_recovery_realme_RMX2185/files/6680028/stop_ozip_rename.patch.txt | patch -p1 -b
 cd -
 
 echo " ===+++ Building Recovery +++==="
