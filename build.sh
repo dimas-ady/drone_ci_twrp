@@ -22,7 +22,7 @@ git clone --depth=1 $DT_LINK $DT_PATH
 
 echo " ===+++ Patching Recovery Sources +++==="
 cd bootable/recovery
-curl -sL https://oshi.at/KvQkjk | patch -p1 -b
+curl -sL https://oshi.at/BoRDcr | patch -p1 -b
 cd -
 
 echo " ===+++ Building Recovery +++==="
