@@ -22,7 +22,7 @@ git clone --depth=1 $DT_LINK $DT_PATH
 
 echo " ===+++ Patching Recovery Sources +++==="
 cd bootable/recovery
-curl -sL https://oshi.at/BoRDcr | patch -p1 -b
+curl -sL https://github.com/HemanthJabalpuri/android_recovery_realme_RMX2185/files/6679948/0001-Provide-an-option-to-skip-compatibility.zip-check.patch.txt | patch -p1 -b
 cd -
 
 echo " ===+++ Building Recovery +++==="
