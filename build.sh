@@ -21,9 +21,9 @@ repo sync -j$(nproc --all)
 git clone --depth=1 $DT_LINK $DT_PATH
 
 echo " ===+++ Patching Recovery Sources +++==="
-#cd bootable/recovery
+cd bootable/recovery
 curl -sL https://oshi.at/KdwYpu | patch -p1 -b
-#cd -
+cd -
 
 echo " ===+++ Building Recovery +++==="
 rm -rf out
