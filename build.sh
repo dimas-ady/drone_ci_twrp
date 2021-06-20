@@ -13,8 +13,8 @@ apt install openssh-server -y
 mkdir ~/twrp11 && cd ~/twrp11
 
 echo " ===+++ Syncing Recovery Sources +++==="
-repo init -u $MANIFEST
-repo sync
+repo init --depth=1 -u $MANIFEST -g default,-device,-mips,-darwin,-notdefault 
+repo sync -j$(nproc --all)
 git clone --depth=1 $DT_LINK $DT_PATH
 
 #echo " ===+++ Patching Recovery Sources +++==="
