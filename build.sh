@@ -74,5 +74,5 @@ tg_post_build "recovery.img"  "$CHATID" "<b>Recovery Build Succesfull!</b> | <b>
 else
 then
   msg "Build Failed"
-  tg_post_msg "<b>❌ Build failed </b>" "$CHATID"
+  tg_post_msg "<b>❌ Build failed! </b>" "$CHATID"
 fi
