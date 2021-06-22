@@ -58,11 +58,18 @@ mka recoveryimage || abort " mka failed with exit status $?"
 msg "mka recoveryimage done"
 
 # Upload zips & recovery.img (U can improvise lateron adding telegram support etc etc)
+if [ -f "out/target/product/$DEVICE/recovery.img" ]
+then
 msg "Uploading Recovery"
 version=$(cat bootable/recovery/variables.h | grep "define TW_MAIN_VERSION_STR" | cut -d \" -f2)
 OUTFILE=TWRP-${version}-${DEVICE}-$(date "+%Y%m%d-%I%M")
 
 cd out/target/product/$DEVICE
+ls
 
 msg "Upload started"
 tg_post_build "recovery.img"  "$CHATID" "Recovery Build Succesfull! | Name : $OUTFILE"
+else
+  msg "Build Failed"
+  tg_post_msg "<b>❌ Build failed!<b>" "$CHATID"
+fi
