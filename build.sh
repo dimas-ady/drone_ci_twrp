@@ -1,7 +1,9 @@
 #!/bin/bash
 # Just a basic script U can improvise lateron asper ur need xD 
 
-msg() { echo -e "\e[1;32m// $* //\e[0m" }
+msg() { 
+  echo -e "\e[1;32m// $* //\e[0m"!
+}
 abort() { echo "$1"; exit 1; }
 
 MANIFEST="git://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-9.0"
