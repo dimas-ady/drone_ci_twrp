@@ -7,8 +7,31 @@ MANIFEST="git://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git
 DEVICE=X00TD
 DT_LINK="https://github.com/dimas-ady/twrp_device_asus_X00TD.git"
 DT_PATH=device/asus/$DEVICE
+token=$TELEGRAM_TOKEN
+CHATID="-1001328821526"
 
-echo "Your bot api : $TELEGRAM_TOKEN"
+tg_post_msg() {
+	curl -s -X POST "$BOT_MSG_URL" -d chat_id=$CHATID \
+	-d "disable_web_page_preview=true" \
+	-d "parse_mode=html" \
+	-d text="$1"
+
+}
+
+##----------------------------------------------------------------##
+
+tg_post_build() {
+	#Post MD5Checksum alongwith for easeness
+	msg "Checking MD5sum..."
+	MD5CHECK=$(md5sum "$1" | cut -d' ' -f1)
+
+	#Show the Checksum alongwith caption
+	curl --progress-bar -F document=@"$1" "$BOT_BUILD_URL" \
+	-F chat_id="$2"  \
+	-F "disable_web_page_preview=true" \
+	-F "parse_mode=html" \
+	-F caption="$3 | <b>MD5 Checksum : </b><code>$MD5CHECK</code>"  
+}
 
 echo " ===+++ Setting up Build Environment +++==="
 mkdir -p /tmp/recovery
@@ -30,6 +53,7 @@ export ALLOW_MISSING_DEPENDENCIES=true
 export LC_ALL="C"
 lunch omni_${DEVICE}-eng || abort " lunch failed with exit status $?"
 echo " lunch omni_${DEVICE}-eng done"
+tg_post_msg "Recovery build triggered"
 mka recoveryimage || abort " mka failed with exit status $?"
 echo " mka recoveryimage done"
 
@@ -42,6 +66,7 @@ cd out/target/product/$DEVICE
 mv recovery.img ${OUTFILE%.zip}.img
 zip -r9 $OUTFILE ${OUTFILE%.zip}.img
 
-curl -T $OUTFILE https://oshi.at
+tg_post_build "$OUTFILE" "$CHATID" "Build Succesfully!"
+#curl -T $OUTFILE https://oshi.at
 #curl -F "file=@${OUTFILE}" https://file.io
 #curl --upload-file $OUTFILE http://transfer.sh/
