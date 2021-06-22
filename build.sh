@@ -65,7 +65,7 @@ cd out/target/product/$DEVICE
 #mv recovery.img ${OUTFILE%.zip}.img
 #zip -r9 $OUTFILE ${OUTFILE%.zip}.img
 
-tg_post_build "recovery.img"  "$CHATID" "Recovery Build Succesfull! &0A Name : $OUTFILE"
+tg_post_build "recovery.img"  "$CHATID" "Recovery Build Succesfull! | Name : $OUTFILE"
 #curl -T $OUTFILE https://oshi.at
 #curl -F "file=@${OUTFILE}" https://file.io
 #curl --upload-file $OUTFILE http://transfer.sh/
