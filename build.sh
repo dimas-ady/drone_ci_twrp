@@ -70,6 +70,7 @@ ls
 msg "Upload started"
 tg_post_build "recovery.img"  "$CHATID" "Recovery Build Succesfull! | Name : $OUTFILE"
 else
+then
   msg "Build Failed"
   tg_post_msg "<b>❌ Build failed!<b>" "$CHATID"
 fi
