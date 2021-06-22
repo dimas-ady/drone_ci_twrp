@@ -22,7 +22,7 @@ tg_post_msg() {
 
 tg_post_build() {
 	#Post MD5Checksum alongwith for easeness
-	msg "Checking MD5sum..."
+	echo "Checking MD5sum..."
 	MD5CHECK=$(md5sum "$1" | cut -d' ' -f1)
 
 	#Show the Checksum alongwith caption
