@@ -59,13 +59,13 @@ echo " mka recoveryimage done"
 # Upload zips & recovery.img (U can improvise lateron adding telegram support etc etc)
 echo " ===+++ Uploading Recovery +++==="
 version=$(cat bootable/recovery/variables.h | grep "define TW_MAIN_VERSION_STR" | cut -d \" -f2)
-OUTFILE=TWRP-${version}-${DEVICE}-$(date "+%Y%m%d-%I%M").zip
+OUTFILE=TWRP-${version}-${DEVICE}-$(date "+%Y%m%d-%I%M")
 
 cd out/target/product/$DEVICE
 #mv recovery.img ${OUTFILE%.zip}.img
 #zip -r9 $OUTFILE ${OUTFILE%.zip}.img
 
-tg_post_build "recovery.img"  "$CHATID" "Build Succesfully!"
+tg_post_build "recovery.img"  "$CHATID" "Recovery Build Succesfull! &0A Name : $OUTFILE"
 #curl -T $OUTFILE https://oshi.at
 #curl -F "file=@${OUTFILE}" https://file.io
 #curl --upload-file $OUTFILE http://transfer.sh/
