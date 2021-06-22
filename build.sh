@@ -25,8 +25,10 @@ export PATH=$HOME/toolchain/gcc64/bin:$PATH
 #export CROSS_COMPILE_ARM32=$HOME/toolchain/gcc/bin/arm-linux-androideabi-
 export CROSS_COMPILE=$HOME/toolchain/gcc64/bin/aarch64-linux-android-
 
-make msm8937_defconfig || abort "make msm8937_defconfig failed with $?"
-make -j$(nproc --all) || abort "make -j$(nproc --all) failed with $?"
+make msm8937_defconfig || abort " make msm8937_defconfig failed with $?"
+echo " make msm8937_defconfig done"
+make -j$(nproc --all) || abort " make -j$(nproc --all) failed with $?"
+echo "make -j$(nproc --all) done"
 
 echo "===+++ Uploading kernel +++==="
 curl -T out/arch/arm64/boot/Image.gz-dtb https://oshi.at
