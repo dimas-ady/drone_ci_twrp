@@ -2,7 +2,7 @@
 # Just a basic script U can improvise lateron asper ur need xD 
 
 msg() { 
-  echo -e "\e[1;32m// $* //\e[0m"!
+  echo -e "\e[1;32m// $* //\e[0m"
 }
 abort() { echo "$1"; exit 1; }
 
