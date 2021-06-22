@@ -4,7 +4,7 @@ abort() { echo "$1"; exit 1; }
 
 cd ~
 
-apt install gcc-aarch64-linux-gnu
+apt install gcc-aarch64-linux-gnu -y
 
 echo "===+++ Cloning kernel sources +++==="
 git clone --depth=1 https://github.com/MiCode/Xiaomi_Kernel_OpenSource -b land-m-oss kernel
