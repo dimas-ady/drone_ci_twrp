@@ -55,7 +55,7 @@ export ALLOW_MISSING_DEPENDENCIES=true
 export LC_ALL="C"
 lunch omni_${DEVICE}-eng || abort " lunch failed with exit status $?"
 msg "lunch omni_${DEVICE}-eng done"
-tg_post_msg "Recovery build triggered"
+tg_post_msg "<b>Recovery build triggered!</b>"
 mka recoveryimage || abort " mka failed with exit status $?"
 msg "mka recoveryimage done"
 
@@ -70,9 +70,9 @@ cd out/target/product/$DEVICE
 ls
 
 msg "Upload started"
-tg_post_build "recovery.img"  "$CHATID" "Recovery Build Succesfull! | Name : $OUTFILE"
+tg_post_build "recovery.img"  "$CHATID" "<b>Recovery Build Succesfull!</b> | <b>Name :</b> $OUTFILE"
 else
 then
   msg "Build Failed"
-  tg_post_msg "<b>❌ Build failed!<b>" "$CHATID"
+  tg_post_msg "<b>❌ Build failed </b>" "$CHATID"
 fi
