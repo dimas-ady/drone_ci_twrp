@@ -8,7 +8,7 @@ DEVICE=X00TD
 DT_LINK="https://github.com/dimas-ady/twrp_device_asus_X00TD.git"
 DT_PATH=device/asus/$DEVICE
 
-echo "Your bot api : $BOT_API_KEY"
+echo "Your bot api : $TELEGRAM_TOKEN"
 
 echo " ===+++ Setting up Build Environment +++==="
 mkdir -p /tmp/recovery
