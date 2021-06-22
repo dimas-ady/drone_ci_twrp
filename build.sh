@@ -36,11 +36,13 @@ tg_post_build() {
 }
 
 msg "Setting up Build Environment"
-mkdir -p /tmp/recovery
-cd /tmp/recovery
+mkdir -p ~/OrangeFox
+cd ~/OrangeFox
 apt install openssh-server -y
-apt update --fix-missing
-apt install openssh-server -y
+git clone https://gitlab.com/OrangeFox/misc/scripts
+cd scripts
+sudo bash setup/android_build_env.sh
+sudo bash setup/install_android_sdk.sh
 
 msg "Syncing Recovery Source"
 repo init --depth=1 -u $MANIFEST -g default,-device,-mips,-darwin,-notdefault 
@@ -70,7 +72,7 @@ cd out/target/product/$DEVICE
 ls
 
 msg "Upload started"
-tg_post_build "recovery.img"  "$CHATID" "<b>Recovery Build Succesfull!</b> | <b>Name :</b> $OUTFILE"
+tg_post_build "recovery.img" "$CHATID" "<b>Recovery Build Succesfull!</b> | <b>Name :</b> $OUTFILE"
 else
   msg "Build Failed"
   tg_post_msg "<b>❌ Build failed! </b>" "$CHATID"
