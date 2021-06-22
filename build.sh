@@ -18,11 +18,9 @@ tg_post_msg() {
 	-d "disable_web_page_preview=true" \
 	-d "parse_mode=html" \
 	-d text="$1"
-
 }
 
 tg_post_build() {
-	#Post MD5Checksum alongwith for easeness
 	echo "Checking MD5sum..."
 	MD5CHECK=$(md5sum "$1" | cut -d' ' -f1)
 
@@ -64,10 +62,10 @@ version=$(cat bootable/recovery/variables.h | grep "define TW_MAIN_VERSION_STR" 
 OUTFILE=TWRP-${version}-${DEVICE}-$(date "+%Y%m%d-%I%M").zip
 
 cd out/target/product/$DEVICE
-mv recovery.img ${OUTFILE%.zip}.img
-zip -r9 $OUTFILE ${OUTFILE%.zip}.img
+#mv recovery.img ${OUTFILE%.zip}.img
+#zip -r9 $OUTFILE ${OUTFILE%.zip}.img
 
-tg_post_build "$OUTFILE" "$CHATID" "Build Succesfully!"
+tg_post_build "recovery.img"  "$CHATID" "Build Succesfully!"
 #curl -T $OUTFILE https://oshi.at
 #curl -F "file=@${OUTFILE}" https://file.io
 #curl --upload-file $OUTFILE http://transfer.sh/
