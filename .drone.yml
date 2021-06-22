@@ -11,9 +11,9 @@ platform:
 
 steps:
 - name: Start syncing && Compiling
-  environment: 
-    TELEGRAM_TOKEN: 
-      from_secret: BOT_API_KEY
   image: brock5555/recovery
   commands:
   - bash build.sh
+  environment: 
+    TELEGRAM_TOKEN: 
+      from_secret: BOT_API_KEY
