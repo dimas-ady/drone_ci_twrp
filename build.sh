@@ -18,6 +18,7 @@ git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linu
 echo "===+++ Building kernel +++==="
 cd ~/kernel
 export USE_HOST_LEX=yes
+export LC_ALL=C
 #export KBUILD_COMPILER_STRING=$($HOME/toolchain/gcc64/bin/aarch64-linux-android-gcc --version | head -n 1)
 #export KBUILD_BUILD_USER="HemanthJabalpuri"
 export ARCH=arm64
