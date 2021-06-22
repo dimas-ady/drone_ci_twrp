@@ -12,8 +12,8 @@ git clone --depth=1 https://github.com/MiCode/Xiaomi_Kernel_OpenSource -b land-m
 
 echo "===+++ Downloading toolchain +++==="
 mkdir toolchain && cd toolchain
-git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 gcc64
-git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 gcc
+git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 -b ndk-r19 gcc64
+git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 -b ndk-r19 gcc
 
 echo "===+++ Building kernel +++==="
 cd ~/kernel
