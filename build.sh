@@ -1,6 +1,7 @@
 #!/bin/bash
 # Just a basic script U can improvise lateron asper ur need xD 
 
+msg() { echo -e "\e[1;32m// $* //\e[0m" }
 abort() { echo "$1"; exit 1; }
 
 MANIFEST="git://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-9.0"
@@ -21,7 +22,7 @@ tg_post_msg() {
 }
 
 tg_post_build() {
-	echo "Checking MD5sum..."
+	msg "Checking MD5sum..."
 	MD5CHECK=$(md5sum "$1" | cut -d' ' -f1)
 
 	#Show the Checksum alongwith caption
@@ -32,35 +33,36 @@ tg_post_build() {
 	-F caption="$3 | <b>MD5 Checksum : </b><code>$MD5CHECK</code>"  
 }
 
-echo " ===+++ Setting up Build Environment +++==="
+msg "Setting up Build Environment"
 mkdir -p /tmp/recovery
 cd /tmp/recovery
 apt install openssh-server -y
 apt update --fix-missing
 apt install openssh-server -y
 
-echo " ===+++ Syncing Recovery Sources +++==="
+msg "Syncing Recovery Source"
 repo init --depth=1 -u $MANIFEST -g default,-device,-mips,-darwin,-notdefault 
 repo sync -j$(nproc --all)
 git clone --depth=1 $DT_LINK $DT_PATH
 
-echo " ===+++ Building Recovery +++==="
+msg "Building Recovery"
 rm -rf out
 source build/envsetup.sh
-echo " source build/envsetup.sh done"
+msg "source build/envsetup.sh done"
 export ALLOW_MISSING_DEPENDENCIES=true
 export LC_ALL="C"
 lunch omni_${DEVICE}-eng || abort " lunch failed with exit status $?"
-echo " lunch omni_${DEVICE}-eng done"
+msg "lunch omni_${DEVICE}-eng done"
 tg_post_msg "Recovery build triggered"
 mka recoveryimage || abort " mka failed with exit status $?"
-echo " mka recoveryimage done"
+msg "mka recoveryimage done"
 
 # Upload zips & recovery.img (U can improvise lateron adding telegram support etc etc)
-echo " ===+++ Uploading Recovery +++==="
+msg "Uploading Recovery"
 version=$(cat bootable/recovery/variables.h | grep "define TW_MAIN_VERSION_STR" | cut -d \" -f2)
 OUTFILE=TWRP-${version}-${DEVICE}-$(date "+%Y%m%d-%I%M")
 
 cd out/target/product/$DEVICE
 
+msg "Upload started"
 tg_post_build "recovery.img"  "$CHATID" "Recovery Build Succesfull! | Name : $OUTFILE"
