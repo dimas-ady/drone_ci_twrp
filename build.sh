@@ -9,6 +9,9 @@ DT_LINK="https://github.com/dimas-ady/twrp_device_asus_X00TD.git"
 DT_PATH=device/asus/$DEVICE
 token=$TELEGRAM_TOKEN
 CHATID="-1001328821526"
+BOT_MSG_URL="https://api.telegram.org/bot$token/sendMessage"
+BOT_BUILD_URL="https://api.telegram.org/bot$token/sendDocument"
+
 
 tg_post_msg() {
 	curl -s -X POST "$BOT_MSG_URL" -d chat_id=$CHATID \
@@ -17,8 +20,6 @@ tg_post_msg() {
 	-d text="$1"
 
 }
-
-##----------------------------------------------------------------##
 
 tg_post_build() {
 	#Post MD5Checksum alongwith for easeness
