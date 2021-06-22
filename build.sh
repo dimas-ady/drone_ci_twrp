@@ -62,10 +62,5 @@ version=$(cat bootable/recovery/variables.h | grep "define TW_MAIN_VERSION_STR" 
 OUTFILE=TWRP-${version}-${DEVICE}-$(date "+%Y%m%d-%I%M")
 
 cd out/target/product/$DEVICE
-#mv recovery.img ${OUTFILE%.zip}.img
-#zip -r9 $OUTFILE ${OUTFILE%.zip}.img
 
 tg_post_build "recovery.img"  "$CHATID" "Recovery Build Succesfull! | Name : $OUTFILE"
-#curl -T $OUTFILE https://oshi.at
-#curl -F "file=@${OUTFILE}" https://file.io
-#curl --upload-file $OUTFILE http://transfer.sh/
