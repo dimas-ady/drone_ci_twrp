@@ -70,7 +70,7 @@ cd out/target/product/$DEVICE
 ls
 
 msg "Upload started"
-tg_post_build "recovery.img" "$CHATID" "<b>Recovery Build Succesfull!</b> | <b>Name :</b> $OUTFILE"
+tg_post_build "recovery.img" "$CHATID" "<b>Recovery Build Succesfull!</b> | <b>Name :</b> <code>$OUTFILE</code>"
 else
   msg "Build Failed"
   tg_post_msg "<b>❌ Build failed! </b>" "$CHATID"
