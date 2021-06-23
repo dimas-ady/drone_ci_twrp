@@ -29,6 +29,7 @@ tg_post_build() {
 	MD5CHECK=$(md5sum "$1" | cut -d' ' -f1)
 
 	#Show the Checksum alongwith caption
+	ls
 	curl --progress-bar -F document=@"$1" "$BOT_BUILD_URL" \
 	-F chat_id="$2"  \
 	-F "disable_web_page_preview=true" \
