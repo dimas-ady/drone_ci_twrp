@@ -36,13 +36,11 @@ tg_post_build() {
 }
 
 msg "Setting up Build Environment"
-mkdir -p ~/OrangeFox
-cd ~/OrangeFox
+mkdir -p /tmp/recovery
+cd /tmp/recovery
 apt install openssh-server -y
-git clone https://gitlab.com/OrangeFox/misc/scripts
-cd scripts
-sudo bash setup/android_build_env.sh
-sudo bash setup/install_android_sdk.sh
+apt update --fix-missing
+apt install openssh-server -y
 
 msg "Syncing Recovery Source"
 repo init --depth=1 -u $MANIFEST -g default,-device,-mips,-darwin,-notdefault 
