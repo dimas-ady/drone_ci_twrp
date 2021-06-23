@@ -5,7 +5,7 @@ abort() { echo "$1"; exit 1; }
 
 MANIFEST="git://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-10.0"
 DEVICE=RMX2185
-DT_LINK="https://github.com/HemanthJabalpuri/android_recovery_realme_RMX2185 -b test"
+DT_LINK="https://github.com/HemanthJabalpuri/android_recovery_realme_RMX2185 -b android-10.0"
 DT_PATH=device/realme/$DEVICE
 
 echo " ===+++ Setting up Build Environment +++==="
@@ -31,7 +31,6 @@ rm -rf out
 source build/envsetup.sh
 echo " source build/envsetup.sh done"
 export ALLOW_MISSING_DEPENDENCIES=true
-export LC_ALL="C"
 lunch omni_${DEVICE}-eng || abort " lunch failed with exit status $?"
 echo " lunch omni_${DEVICE}-eng done"
 mka recoveryimage || abort " mka failed with exit status $?"
