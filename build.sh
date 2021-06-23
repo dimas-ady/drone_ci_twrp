@@ -50,10 +50,12 @@ cd ~/OrangeFox
 repo init -u https://gitlab.com/OrangeFox/Manifest.git -b fox_9.0
 repo sync -j$(nproc --all) --force-sync
 cd ~/OrangeFox
+ls
 git clone --depth=1 $DT_LINK $DT_PATH
 
 msg "Building Recovery"
 rm -rf out
+ls
 source build/envsetup.sh
 msg "source build/envsetup.sh done"
 export FOX_USE_TWRP_RECOVERY_IMAGE_BUILDER=1
