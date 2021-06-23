@@ -61,7 +61,7 @@ mka recoveryimage || abort " mka failed with exit status $?"
 msg "mka recoveryimage done"
 
 # Upload zips & recovery.img (U can improvise lateron adding telegram support etc etc)
-if [ -f "out/target/product/$DEVICE" ]
+if [ -f "out/target/product/$DEVICE/recovery.img" ]
 then
   msg "Uploading Recovery"
   version=$(cat bootable/recovery/variables.h | grep "define TW_MAIN_VERSION_STR" | cut -d \" -f2)
