@@ -22,12 +22,12 @@ tg_post_msg() {
 	-d "parse_mode=html" \
 	-d text="$1"
 }
-
-tg_post_build() {
-	msg "Checking MD5sum..."
-	#MD5CHECK=$(md5sum "$1" | cut -d' ' -f1)
-  MD5CHECK="928282929"
   
+tg_post_build() {
+	#Post MD5Checksum alongwith for easeness
+	msg "Checking MD5sum..."
+	MD5CHECK=$(md5sum "$1" | cut -d' ' -f1)
+
 	#Show the Checksum alongwith caption
 	curl --progress-bar -F document=@"$1" "$BOT_BUILD_URL" \
 	-F chat_id="$2"  \
