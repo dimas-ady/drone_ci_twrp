@@ -22,8 +22,9 @@ tg_post_msg() {
 	-d "parse_mode=html" \
 	-d text="$1"
 }
-
+  
 tg_post_build() {
+	#Post MD5Checksum alongwith for easeness
 	msg "Checking MD5sum..."
 	MD5CHECK=$(md5sum "$1" | cut -d' ' -f1)
 
@@ -36,21 +37,26 @@ tg_post_build() {
 }
 
 msg "Setting up Build Environment"
-mkdir -p /tmp/recovery
-cd /tmp/recovery
+mkdir -p ~/OrangeFox_
+cd ~/OrangeFox
 apt install openssh-server -y
-apt update --fix-missing
-apt install openssh-server -y
+git clone https://gitlab.com/OrangeFox/misc/scripts
+cd scripts
+sudo bash setup/android_build_env.sh
+sudo bash setup/install_android_sdk.sh
 
 msg "Syncing Recovery Source"
-repo init --depth=1 -u $MANIFEST -g default,-device,-mips,-darwin,-notdefault 
-repo sync -j$(nproc --all)
+cd ~/OrangeFox
+repo init -u https://gitlab.com/OrangeFox/Manifest.git -b fox_9.0
+repo sync -j$(nproc --all) --force-sync
+cd ~/OrangeFox
 git clone --depth=1 $DT_LINK $DT_PATH
 
 msg "Building Recovery"
 rm -rf out
 source build/envsetup.sh
 msg "source build/envsetup.sh done"
+export FOX_USE_TWRP_RECOVERY_IMAGE_BUILDER=1
 export ALLOW_MISSING_DEPENDENCIES=true
 export LC_ALL="C"
 lunch omni_${DEVICE}-eng || abort " lunch failed with exit status $?"
@@ -62,16 +68,14 @@ msg "mka recoveryimage done"
 # Upload zips & recovery.img (U can improvise lateron adding telegram support etc etc)
 if [ -f "out/target/product/$DEVICE/recovery.img" ]
 then
-msg "Uploading Recovery"
-version=$(cat bootable/recovery/variables.h | grep "define TW_MAIN_VERSION_STR" | cut -d \" -f2)
-OUTFILE=TWRP-${version}-${DEVICE}-$(date "+%Y%m%d-%I%M")
+  msg "Uploading Recovery"
+  version=$(cat bootable/recovery/variables.h | grep "define FOX_MAIN_VERSION_STR" | cut -d \" -f2)
+  OUTFILE=TWRP-${version}-${DEVICE}-$(date "+%Y%m%d-%I%M")
 
-cd out/target/product/$DEVICE
-ls
+  cd out/target/product/$DEVICE
 
-msg "Upload started"
-tg_post_build "recovery.img"  "$CHATID" "<b>Recovery Build Succesfull!</b> | <b>Name :</b> $OUTFILE"
+  msg "Upload started"
+  tg_post_build "recovery.img"  "$CHATID" "Recovery Build Succesfull! | Name : <code>$OUTFILE</code>" 
 else
-  msg "Build Failed"
-  tg_post_msg "<b>❌ Build failed! </b>" "$CHATID"
+  tg_post_msg "<b>Recovery build failed!</b>"
 fi
