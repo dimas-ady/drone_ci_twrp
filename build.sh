@@ -68,4 +68,5 @@ OUTFILE=TWRP-${version}-${DEVICE}-$(date "+%Y%m%d-%I%M")
 cd out/target/product/$DEVICE
 
 msg "Upload started"
-tg_post_build "recovery.img" "$CHATID" "<b>Recovery Build Succesfull!</b> | <b>Name :</b> <code>$OUTFILE</code>"
+#tg_post_build "recovery.img" "$CHATID" "<b>Recovery Build Succesfull!</b> | <b>Name :</b> <code>$OUTFILE</code>"
+tg_post_build "recovery.img"  "$CHATID" "Recovery Build Succesfull! | Name : $OUTFILE" 
