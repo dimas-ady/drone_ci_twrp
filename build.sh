@@ -84,7 +84,7 @@ then
   OUTFILE=OrangeFox-${FOX_VERSION}-${DEVICE}-$(date "+%Y%m%d-%I%M")
 
   cd out/target/product/$DEVICE
-  ofoxzip="OrangeFox-$FOX_VERSION-Unofficial-X00TD.zip"
+  ofoxzip="OrangeFox-$FOX_VERSION-Unofficial-$DEVICE.zip"
 
   msg "Upload started"
   tg_post_build "$ofoxzip"  "$CHATID" "Recovery Build Succesfull! | Name : <code>$OUTFILE</code>" 
