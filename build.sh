@@ -16,6 +16,14 @@ BOT_MSG_URL="https://api.telegram.org/bot$token/sendMessage"
 BOT_BUILD_URL="https://api.telegram.org/bot$token/sendDocument"
 MAGISK="https://github.com/topjohnwu/Magisk/releases/download/v23.0/Magisk-v23.0.apk"
 MAINTAINER_AVATAR="https://avatars.githubusercontent.com/dimas-ady"
+FAST_SYNC=N
+  if [ $FASTSYNC == "Y" ]
+    then
+    PROCS=$(nproc --all)
+  else
+    then
+    PROCS=8
+  fi
 
 tg_post_msg() {
 	curl -s -X POST "$BOT_MSG_URL" -d chat_id=$CHATID \
@@ -54,7 +62,7 @@ msg "Syncing Recovery Source"
 mkdir ~/OrangeFox
 cd ~/OrangeFox
 repo init --depth=1 -u $MANIFEST
-repo sync -j$(nproc --all) --force-sync
+repo sync -j$PROCS --force-sync
 git clone --depth=1 $DT_LINK $DT_PATH
 
 msg "Building Recovery"
@@ -65,14 +73,14 @@ msg "source build/envsetup.sh done"
 version=$(cat bootable/recovery/variables.h | grep "define FOX_MAIN_VERSION_STR" | cut -d \" -f2)
 wget -O ~/OrangeFox/Magisk.zip $MAGISK
 wget -O ~/tmpf/avatar.png $MAINTAINER_AVATAR
-advdef -4z "$HOME/tmpf/avatar.png"
+#advdef -4z "$HOME/tmpf/avatar.png"
 export FOX_USE_TWRP_RECOVERY_IMAGE_BUILDER=1
 export ALLOW_MISSING_DEPENDENCIES=true
 export LC_ALL="C"
 export FOX_DISABLE_APP_MANAGER=1
 export FOX_VERSION="${version}_0"
 export OF_MAINTAINER="Dimas Adiyaksa - XZXZ"
-export OF_MAINTAINER_AVATAR="$HOME/tmpf/avatar.png"
+#export OF_MAINTAINER_AVATAR="$HOME/tmpf/avatar.png"
 export FOX_USE_SPECIFIC_MAGISK_ZIP="$HOME/OrangeFox/Magisk.zip"
 lunch omni_${DEVICE}-eng || abort " lunch failed with exit status $?"
 msg "lunch omni_${DEVICE}-eng done"
