@@ -28,6 +28,7 @@ tg_post_build() {
 	#Post MD5Checksum alongwith for easeness
 	#msg "Checking MD5sum..."
 	#MD5CHECK=$(md5sum "$1" | cut -d' ' -f1)
+	sed -i 's/\$1//g' $1.md5
 	MD5CHECK=$(cat $1.md5)
 
 	#Show the Checksum alongwith caption
@@ -38,7 +39,8 @@ tg_post_build() {
 	-F caption="$3 | <b>MD5 Checksum : </b><code>$MD5CHECK</code>"  
 }
 
-mkdir ~/tempfolder
+mkdir ~/tmpf
+
 msg "Setting up Build Environment"
 apt install openssh-server openjdk-8-jdk -y
 apt update --fix-missing
@@ -52,7 +54,7 @@ msg "Syncing Recovery Source"
 mkdir ~/OrangeFox
 cd ~/OrangeFox
 repo init --depth=1 -u $MANIFEST
-repo sync -j8 --force-sync
+repo sync -j$(nproc --all) --force-sync
 git clone --depth=1 $DT_LINK $DT_PATH
 
 msg "Building Recovery"
@@ -62,14 +64,15 @@ source build/envsetup.sh
 msg "source build/envsetup.sh done"
 version=$(cat bootable/recovery/variables.h | grep "define FOX_MAIN_VERSION_STR" | cut -d \" -f2)
 wget -O ~/OrangeFox/Magisk.zip $MAGISK
-wget -O ~/tempfolder/avatar.png $MAINTAINER_AVATAR
+wget -O ~/tmpf/avatar.png $MAINTAINER_AVATAR
+advdef -4z "$HOME/tmpf/avatar.png"
 export FOX_USE_TWRP_RECOVERY_IMAGE_BUILDER=1
 export ALLOW_MISSING_DEPENDENCIES=true
 export LC_ALL="C"
 export FOX_DISABLE_APP_MANAGER=1
 export FOX_VERSION="${version}_0"
-export OF_MAINTAINER="Dimas Adiyaksa - XZXZ Project"
-export OF_MAINTAINER_AVATAR="$HOME/tempfolder/avatar.png"
+export OF_MAINTAINER="Dimas Adiyaksa - XZXZ"
+export OF_MAINTAINER_AVATAR="$HOME/tmpf/avatar.png"
 export FOX_USE_SPECIFIC_MAGISK_ZIP="$HOME/OrangeFox/Magisk.zip"
 lunch omni_${DEVICE}-eng || abort " lunch failed with exit status $?"
 msg "lunch omni_${DEVICE}-eng done"
@@ -87,7 +90,7 @@ then
   ofoxzip="OrangeFox-$FOX_VERSION-Unofficial-$DEVICE.zip"
 
   msg "Upload started"
-  tg_post_build "$ofoxzip"  "$CHATID" "Recovery Build Succesfull! | Name : <code>$OUTFILE</code>" 
+  tg_post_build "$ofoxzip" "$CHATID" "Recovery Build Succesfull! | Name : <code>$OUTFILE</code>" 
 else
   tg_post_msg "<b>Recovery build failed!</b>"
 fi
