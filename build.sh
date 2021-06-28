@@ -34,10 +34,10 @@ tg_post_msg() {
   
 tg_post_build() {
 	#Post MD5Checksum alongwith for easeness
-	#msg "Checking MD5sum..."
-	#MD5CHECK=$(md5sum "$1" | cut -d' ' -f1)
-	sed -i 's/\$1//g' $1.md5
-	MD5CHECK=$(cat $1.md5)
+	msg "Checking MD5sum..."
+	MD5CHECK=$(md5sum "$1" | cut -d' ' -f1)
+	#sed -i 's/\$1//g' $1.md5
+	#MD5CHECK=$(cat $1.md5)
 
 	#Show the Checksum alongwith caption
 	curl --progress-bar -F document=@"$1" "$BOT_BUILD_URL" \
