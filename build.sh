@@ -14,7 +14,8 @@ token=$TELEGRAM_TOKEN
 CHATID="-1001328821526"
 BOT_MSG_URL="https://api.telegram.org/bot$token/sendMessage"
 BOT_BUILD_URL="https://api.telegram.org/bot$token/sendDocument"
-
+MAGISK="https://github.com/topjohnwu/Magisk/releases/download/v23.0/Magisk-v23.0.apk"
+MAINTAINER_AVATAR="https://avatars.githubusercontent.com/dimas-ady"
 
 tg_post_msg() {
 	curl -s -X POST "$BOT_MSG_URL" -d chat_id=$CHATID \
@@ -36,6 +37,7 @@ tg_post_build() {
 	-F caption="$3 | <b>MD5 Checksum : </b><code>$MD5CHECK</code>"  
 }
 
+mkdir ~/tempfolder
 msg "Setting up Build Environment"
 apt install openssh-server openjdk-8-jdk -y
 apt update --fix-missing
@@ -57,9 +59,17 @@ rm -rf out
 ls
 source build/envsetup.sh
 msg "source build/envsetup.sh done"
+version=$(cat bootable/recovery/variables.h | grep "define FOX_MAIN_VERSION_STR" | cut -d \" -f2)
+wget -O ~/OrangeFox/Magisk.zip $MAGISK
+wget -O ~/tempfolder/avatar.png $MAINTAINER_AVATAR
 export FOX_USE_TWRP_RECOVERY_IMAGE_BUILDER=1
 export ALLOW_MISSING_DEPENDENCIES=true
 export LC_ALL="C"
+export FOX_DISABLE_APP_MANAGER=1
+export FOX_VERSION="${version}_0"
+export OF_MAINTAINER="Dimas Adiyaksa - XZXZ Project"
+export OF_MAINTAINER_AVATAR="$HOME/tempfolder/avatar.png"
+export FOX_USE_SPECIFIC_MAGISK_ZIP="$HOME/OrangeFox/Magisk.zip"
 lunch omni_${DEVICE}-eng || abort " lunch failed with exit status $?"
 msg "lunch omni_${DEVICE}-eng done"
 tg_post_msg "<b>Recovery build triggered!</b>"
@@ -70,13 +80,13 @@ msg "mka recoveryimage done"
 if [ -f "out/target/product/$DEVICE/recovery.img" ]
 then
   msg "Uploading Recovery"
-  version=$(cat bootable/recovery/variables.h | grep "define FOX_MAIN_VERSION_STR" | cut -d \" -f2)
-  OUTFILE=OrangeFox-${version}-${DEVICE}-$(date "+%Y%m%d-%I%M")
+  OUTFILE=OrangeFox-${FOX_VERSION}-${DEVICE}-$(date "+%Y%m%d-%I%M")
 
   cd out/target/product/$DEVICE
+  ofoxzip="$(ls *.zip)"
 
   msg "Upload started"
-  tg_post_build "recovery.img"  "$CHATID" "Recovery Build Succesfull! | Name : <code>$OUTFILE</code>" 
+  tg_post_build "$ofoxzip"  "$CHATID" "Recovery Build Succesfull! | Name : <code>$OUTFILE</code>" 
 else
   tg_post_msg "<b>Recovery build failed!</b>"
 fi
