@@ -52,7 +52,7 @@ msg "Syncing Recovery Source"
 mkdir ~/OrangeFox
 cd ~/OrangeFox
 repo init --depth=1 -u $MANIFEST
-repo sync -j$(nproc --all) --force-sync
+repo sync -j8 --force-sync
 git clone --depth=1 $DT_LINK $DT_PATH
 
 msg "Building Recovery"
