@@ -17,7 +17,7 @@ BOT_BUILD_URL="https://api.telegram.org/bot$token/sendDocument"
 MAGISK="https://github.com/topjohnwu/Magisk/releases/download/v23.0/Magisk-v23.0.apk"
 MAINTAINER_AVATAR="https://avatars.githubusercontent.com/dimas-ady"
 FAST_SYNC=N
-  if [ $FASTSYNC == "Y" ]
+  if [ $FASTSYNC == "Y" ];
     then
     PROCS=$(nproc --all)
   else
