@@ -26,8 +26,9 @@ tg_post_msg() {
   
 tg_post_build() {
 	#Post MD5Checksum alongwith for easeness
-	msg "Checking MD5sum..."
-	MD5CHECK=$(md5sum "$1" | cut -d' ' -f1)
+	#msg "Checking MD5sum..."
+	#MD5CHECK=$(md5sum "$1" | cut -d' ' -f1)
+	MD5CHECK=$(cat "$1.zip")
 
 	#Show the Checksum alongwith caption
 	curl --progress-bar -F document=@"$1" "$BOT_BUILD_URL" \
@@ -83,7 +84,7 @@ then
   OUTFILE=OrangeFox-${FOX_VERSION}-${DEVICE}-$(date "+%Y%m%d-%I%M")
 
   cd out/target/product/$DEVICE
-  ofoxzip="$(ls *.zip)"
+  ofoxzip="OrangeFox-$FOX_VERSION-Unofficial-X00TD.zip"
 
   msg "Upload started"
   tg_post_build "$ofoxzip"  "$CHATID" "Recovery Build Succesfull! | Name : <code>$OUTFILE</code>" 
