@@ -21,7 +21,6 @@ FAST_SYNC=N
     then
     PROCS=$(nproc --all)
   else
-    then
     PROCS=8
   fi
 
