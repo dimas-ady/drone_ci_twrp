@@ -28,7 +28,8 @@ tg_post_build() {
 	#Post MD5Checksum alongwith for easeness
 	#msg "Checking MD5sum..."
 	#MD5CHECK=$(md5sum "$1" | cut -d' ' -f1)
-	MD5CHECK=$(cat "$1.zip")
+	MD5CHECK=$(<"$1.md5")
+	msg "$MD5CHECK"
 
 	#Show the Checksum alongwith caption
 	curl --progress-bar -F document=@"$1" "$BOT_BUILD_URL" \
@@ -52,7 +53,7 @@ msg "Syncing Recovery Source"
 mkdir ~/OrangeFox
 cd ~/OrangeFox
 repo init --depth=1 -u $MANIFEST
-repo sync -j8 --force-sync
+repo sync -j$(nproc --all) --force-sync
 git clone --depth=1 $DT_LINK $DT_PATH
 
 msg "Building Recovery"
