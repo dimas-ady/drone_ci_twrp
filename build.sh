@@ -8,7 +8,7 @@ abort() { echo "$1"; exit 1; }
 
 MANIFEST="https://gitlab.com/OrangeFox/Manifest.git -b fox_9.0"
 DEVICE=X00TD
-DT_LINK="https://github.com/dimas-ady/twrp_device_asus_X00TD.git"
+DT_LINK="https://github.com/dimas-ady/twrp_device_asus_X00TD.git -b fox_9.0"
 DT_PATH=device/asus/$DEVICE
 token=$TELEGRAM_TOKEN
 CHATID="-1001328821526"
