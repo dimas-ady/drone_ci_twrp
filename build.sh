@@ -6,7 +6,7 @@ msg() {
 }
 abort() { echo "$1"; exit 1; }
 
-MANIFEST="git://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-9.0"
+MANIFEST="git://github.com/PitchBlackRecoveryProject/manifest_pb.git -b android-9.0"
 DEVICE=X00TD
 DT_LINK="https://github.com/dimas-ady/twrp_device_asus_X00TD.git"
 DT_PATH=device/asus/$DEVICE
