@@ -52,6 +52,8 @@ msg "Building Recovery"
 rm -rf out
 source build/envsetup.sh
 msg "source build/envsetup.sh done"
+version=$(cat bootable/recovery/variables.h | grep "define TW_MAIN_VERSION_STR" | cut -d \" -f2)
+export FOX_VERSION="${version}_1"
 export ALLOW_MISSING_DEPENDENCIES=true
 export LC_ALL="C"
 lunch omni_${DEVICE}-eng || abort " lunch failed with exit status $?"
@@ -64,7 +66,6 @@ msg "mka recoveryimage done"
 if [ -f "out/target/product/$DEVICE/recovery.img" ]
 then
   msg "Uploading Recovery"
-  version=$(cat bootable/recovery/variables.h | grep "define TW_MAIN_VERSION_STR" | cut -d \" -f2)
   OUTFILE=TWRP-${version}-${DEVICE}-$(date "+%Y%m%d-%I%M")
 
   cd out/target/product/$DEVICE
