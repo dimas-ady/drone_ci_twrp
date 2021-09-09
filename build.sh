@@ -44,23 +44,20 @@ apt update --fix-missing
 apt install openssh-server -y
 
 msg "Syncing Recovery Source"
-repo init --depth=1 -u $MANIFEST -g default,-device,-mips,-darwin,-notdefault 
-repo sync -j$(nproc --all)
-git clone --depth=1 $DT_LINK $DT_PATH
+repo init --depth=1 --no-repo-verify -u https://github.com/LineageOS/android.git -b lineage-17.1 -g default,-device,-mips,-darwin,-notdefault
+git clone https://github.com/dimas-ady/local_manifest.git --depth 1 -b lineage-17.1 .repo/local_manifests
+repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
 
 msg "Building Recovery"
 rm -rf out
 source build/envsetup.sh
 msg "source build/envsetup.sh done"
-version=$(cat bootable/recovery/variables.h | grep "define TW_MAIN_VERSION_STR" | cut -d \" -f2)
-export FOX_VERSION="${version}_1"
-export ALLOW_MISSING_DEPENDENCIES=true
-export LC_ALL="C"
-lunch omni_${DEVICE}-eng || abort " lunch failed with exit status $?"
-msg "lunch omni_${DEVICE}-eng done"
-tg_post_msg "<b>Recovery build triggered!</b>"
-mka recoveryimage || abort " mka failed with exit status $?"
-msg "mka recoveryimage done"
+lunch lineage_X00T-userdebug
+export SELINUX_IGNORE_NEVERALLOWS=true
+export TZ=Asia/Jakarta #put before last build command
+make sepolicy
+make bootimage
+make init
 
 # Upload zips & recovery.img (U can improvise lateron adding telegram support etc etc)
 if [ -f "out/target/product/$DEVICE/recovery.img" ]
